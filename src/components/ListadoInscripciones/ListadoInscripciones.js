@@ -18,8 +18,9 @@ const data = [];
 const uri = "http://localhost:5010/graphql";
 
 const ListadoInscripciones = () => {
+
   console.log("listado")
-  let cat = localStorage.getItem('miGato');
+  let cat = localStorage.getItem('estado');
   console.log(cat)
   const auth = getAuth();
   const [modalActualizar, setModalActualizar] = React.useState(false);

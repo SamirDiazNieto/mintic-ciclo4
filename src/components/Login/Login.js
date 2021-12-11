@@ -32,7 +32,8 @@ import {
   const [newVal, setNewVal] = React.useState(0);
   const data =[]
   const [usuario, setUsuario] = useState();
-  
+  const miStorage = window.localStorage;
+  localStorage.setItem('estado', 'Pendiente');
   /* React.useEffect(() => {
     if (!userLogin) {
     userLogin.getIdToken(true).then(token => {
