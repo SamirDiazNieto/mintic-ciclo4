@@ -1,13 +1,9 @@
 import React from 'react';
-import './ListadoUsuarios.css';
 import { Table, Button, Container } from 'reactstrap';
-import ModalCrearUsuario from '../ModalCrearUsuario/ModalCrearUsuario';
-import ModalEditarUsuario from '../ModalEditarUsuario/ModalEditarUsuario';
+import ModalCrearAvance from '../ModalCrearAvance/ModalCrearAvance';
+import ModalEditarAvance from '../ModalEditarAvance/ModalEditarAvance';
 import Sidebar from '../Dashboard/Sidebar/Sidebar';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth } from 'firebase/auth';
 import { useHistory } from 'react-router';
-
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table';
 import useColumns from '../hooks/useColumnsUsuario';
 import { createApolloFetch } from 'apollo-fetch';
@@ -16,28 +12,24 @@ const data = [];
 
 const uri = 'http://localhost:5010/graphql';
 
-const ListadoUsuarios = () => {
-	const auth = getAuth();
+const ListadoAvances = () => {
 	const [modalActualizar, setModalActualizar] = React.useState(false);
 	const [modalInsertar, setModalInsertar] = React.useState(false);
 	const [errors, setErrors] = React.useState(null);
 	const [newVal, setNewVal] = React.useState(0);
-	const [user, loading, error] = useAuthState(auth);
 	const history = useHistory();
-	const [usuario, setUsuario] = React.useState({
+	const [avance, setAvance] = React.useState({
 		data: data,
 		form: {
 			// _id: "" ,
-			nameUser: '',
-			identification: '',
-			email: '',
-			password: '',
-			typeUser: '',
-			// state: "",
+			project: '',
+			student: '',
+			description: '',
+			comments: '',
 		},
 	});
 
-	let arregloUsuarios = usuario.data;
+	let arregloAvances = avance.data;
 
 	React.useEffect(() => {
 		if (loading) return;
@@ -46,31 +38,33 @@ const ListadoUsuarios = () => {
 
 	React.useEffect(() => {
 		const query = `
-query GetUsers {
-  getUsers {
-    _id
-    nameUser
-    identification
-    email
-    password
-    typeUser
-    state
-  }
-}
-
-`;
+            query GetAdvances {
+                getAdvances {
+                    _id
+                    project {
+                        _id
+                    }
+                    student {
+                        _id
+                    }
+                    date
+                    description
+                    comments
+                }
+            }
+        `;
 		const apolloFetch = createApolloFetch({ uri });
 
 		apolloFetch({ query }).then(
 			(result) => {
-				setUsuario({
-					...usuario,
-					data: result.data.getUsers,
+				setAvance({
+					...avance,
+					data: result.data.getAdvances,
 				});
 
 				setDataTabla({
 					...dataTabla,
-					data: result.data.getUsers,
+					data: result.data.getAdvances,
 				});
 			},
 			(error) => {
@@ -84,10 +78,10 @@ query GetUsers {
 	const handleChange = (datosImput) => {
 		setDataTabla((prevState) => ({
 			...prevState,
-			data: usuario.data,
+			data: avance.data,
 		}));
 
-		setUsuario((prevState) => ({
+		setAvance((prevState) => ({
 			...prevState,
 			form: {
 				...prevState.form,
@@ -97,18 +91,18 @@ query GetUsers {
 	};
 
 	const mostrarModalActualizar = (datoId) => {
-		let userToModify;
-		arregloUsuarios.map((registro) => {
+		let advanceToModify;
+		arregloAvances.map((registro) => {
 			if (datoId.target.id === registro._id) {
-				userToModify = registro;
+				advanceToModify = registro;
 			}
 			return; //console.log("Mostro Modal Actualizar");
 		});
 
 		// listarUsuarios(userToModify);
-		setUsuario({
-			...usuario,
-			form: userToModify,
+		setAvance({
+			...avance,
+			form: advanceToModify,
 		});
 		setModalActualizar(true);
 	};
@@ -116,26 +110,6 @@ query GetUsers {
 		setModalInsertar(true);
 		return; //console.log("Mostro Modal Actualizar");
 	};
-	const eliminar = (datoID) => {
-		arregloUsuarios.map((registro) => {
-			if (datoID.target.id === registro._id) {
-				let opcion = window.confirm('¿Está seguro que desea eliminar el Usuario ' + registro.nameUser + '?');
-				if (opcion) {
-					borrarCustomer(registro._id);
-				}
-			}
-			return; //console.log("Elimino Correctamente");
-		});
-	};
-
-	const borrarCustomer = (id) => {
-		const query = `
-    mutation DeleteUser($id: ID!) {
-      deleteUser(_id: $id) {
-        _id
-      }
-    }
-`;
 		console.log(query);
 
 		const apolloFetch = createApolloFetch({ uri });
@@ -157,7 +131,7 @@ query GetUsers {
 	const columns = useColumns();
 
 	const [dataTabla, setDataTabla] = React.useState({
-		data: usuario.data,
+		data: avance.data,
 	});
 
 	var table = useTable({ columns, data: dataTabla.data }, useGlobalFilter);
@@ -186,8 +160,8 @@ query GetUsers {
 
 		return (
 			<span className='cars-filter'>
-				Buscar Producto:
-				<input size={50} value={value || ''} onChange={handleInputChange} placeholder={`${totalCarsAvailable} Usuarios disponibles...`} />
+				Buscar Avance:
+				<input size={50} value={value || ''} onChange={handleInputChange} placeholder={`${totalCarsAvailable} Avances disponibles...`} />
 			</span>
 		);
 	}
@@ -197,7 +171,7 @@ query GetUsers {
 		<>
 			<Sidebar />
 			<Container>
-				<h1 className='titulos'>Listado Usuarios</h1>
+				<h1 className='titulos'>Listado Avances</h1>
 				<br />
 				<Button disabled={false} color='success' onClick={mostrarModalInsertar}>
 					Crear
@@ -276,8 +250,8 @@ query GetUsers {
 							}
 						</tbody>
 					</Table>
-					<ModalCrearUsuario
-						usuario={usuario}
+					<ModalCrearAvance
+						avance={avance}
 						handleChange={handleChange}
 						setModalInsertar={setModalInsertar}
 						isOpen={modalInsertar}
@@ -285,8 +259,8 @@ query GetUsers {
 						newVal={newVal}
 						uri={uri}
 					/>
-					<ModalEditarUsuario
-						usuario={usuario}
+					<ModalEditarAvance
+						avance={avance}
 						handleChange={handleChange}
 						setModalActualizar={setModalActualizar}
 						isOpen={modalActualizar}
@@ -300,4 +274,4 @@ query GetUsers {
 	);
 };
 
-export default ListadoUsuarios;
+export default ListadoAvances;
