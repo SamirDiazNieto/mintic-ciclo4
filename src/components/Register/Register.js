@@ -2,11 +2,9 @@ import './Register.css';
 // import Logo from '../../assets/logo.png'
 import React, { useState, useEffect } from "react";
 import {
-  auth,
+  userRegister,
   registerWithEmailAndPassword,
 } from "../Firebase/Firebase";
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 
 
 let contador = 0;
@@ -20,6 +18,9 @@ const Register = () =>{
 
   const [emailRegister, setEmailRegister] = useState("");
   const [passwordRegister, setPasswordRegister] = useState("");
+  const [nameRegister, setNameRegister] = useState("");
+  const [documentoRegister, setDocumentoRegister] = useState("");
+  const [tipoUsuarioRegister, setTipoUsuarioRegister] = useState("");
   const usernameRef = React.useRef(null)
   
 
@@ -75,7 +76,7 @@ function capturaVariables(valor){
   const name = document.getElementById("registro-nombres");
     let mensajeName = document.getElementById("msjNombres");
     let regex = new RegExp( /[0-9]/ );
-    console.log(regex.test(name.value))
+    // console.log(regex.test(name.value))
    if (name.value.length < 7 ||  regex.test(name.value) ) {
     name.classList.remove("margin-green");
     name.classList.add("margin-red");
@@ -90,6 +91,7 @@ function capturaVariables(valor){
        mensajeName.classList.remove("error");
        mensajeName.classList.add("exito");
        capturaVariables(false)
+       setNameRegister(name.value)
        return true;
    }
  }
@@ -139,6 +141,7 @@ function capturaVariables(valor){
     mensajIdentificacion.classList.remove("error");
     mensajIdentificacion.classList.add("exito");
        capturaVariables(false)
+       setDocumentoRegister(documento.value)
        return true;
    }
  }
@@ -159,6 +162,7 @@ function capturaVariables(valor){
     mensajetipoUsuario.classList.remove("error");
     mensajetipoUsuario.classList.add("exito");
        capturaVariables(false)
+       setTipoUsuarioRegister(tipoUsuario.value)
        return true;
    }
  }
@@ -177,35 +181,13 @@ function capturaVariables(valor){
   if (correo && pass && confirma && identifica && tipoUser) {
    
    registerWithEmailAndPassword(emailRegister, passwordRegister);
+   userRegister(nameRegister, documentoRegister, tipoUsuarioRegister, "Pendiente");
    console.log("Se registro correctamente");
      contador = 1;
      setTimeout(() => {
        contador = 0;
      }, 1000);
 
-     
-    
-     const createUser = gql `
-    mutation Mutation($identification: String!, $email: String!, $password: String!) {
-      createUser(identification: $identification, email: $email, password: $password) {
-        _id
-      }
-    }
-    `
-
-    const appWithData = graphql(
-      createUser,
-      {
-        options:{
-          variables:{
-            identification: "identification Samir", 
-            email: "email Samir", 
-            password: "password Samir"
-          }
-        }
-      }
-    ) 
-    appWithData();
   } else {
       alert("No Se registro correctamente");
       capturaVariables(true)

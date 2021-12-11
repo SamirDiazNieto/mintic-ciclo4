@@ -26,7 +26,7 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
     let usuarioACrear = { ...usuario.form };
     console.log(usuarioACrear)
     const query=`
-    mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $password: String!, $typeUser: String) {
+    mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $password: String, $typeUser: String!) {
       createUser(identification: $identification, nameUser: $nameUser, email: $email, password: $password, typeUser: $typeUser) {
         _id
         nameUser

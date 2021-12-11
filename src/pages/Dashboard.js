@@ -4,9 +4,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import Foto from "../assets/foto-perfil.png"
 import { useHistory } from "react-router-dom";
+import { userRegisterReturn } from '../components/Firebase/Firebase';
 
 
 function Dashboard() {
+	let userLogged = userRegisterReturn();
+  console.log(userLogged)
+  console.log("listado")
+  
 
 	const auth = getAuth();
 	const [user] = useAuthState(auth);
@@ -30,7 +35,7 @@ function Dashboard() {
 				<h2>Grupo CA-JS</h2>
 
 				<img className="imagen-login" src={(user.photoURL) ? user.photoURL: Foto} alt="" />
-				<h3>Hola, {user.displayName ? user.displayName:'Usuario'}</h3>
+				<h3>Hola, {userLogged.nameUser }</h3>
 				<h3>Tu correo es: {user.email} </h3>
 			</div>
 		</center>

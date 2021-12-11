@@ -12,13 +12,15 @@ import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsInscripcion";
 import { createApolloFetch } from "apollo-fetch";
 import DateFromTime from "es-abstract/5/DateFromTime";
+import { userRegisterReturn } from "../Firebase/Firebase";
 
 const data = [];
 
 const uri = "http://localhost:5010/graphql";
 
 const ListadoInscripciones = () => {
-
+  let userLogged = userRegisterReturn();
+  console.log(userLogged)
   console.log("listado")
   let cat = localStorage.getItem('estado');
   console.log(cat)
@@ -59,24 +61,26 @@ const ListadoInscripciones = () => {
   }, [user, loading]);
 
   React.useEffect(() => {
-    const query = `
-query GetInscription {
-  getInscription {
-    _id
-    state
-    dateRegister
-    dateOut
-    project {
-      _id
-      name
-    }
-    student {
-      nameUser
-    }
-  }
-}
 
-`;
+      const query = `
+    query GetInscription {
+      getInscription {
+        _id
+        state
+        dateRegister
+        dateOut
+        project {
+          _id
+          name
+        }
+        student {
+          nameUser
+        }
+      }
+    }
+
+    `;
+
     const apolloFetch = createApolloFetch({ uri });
 
     apolloFetch({ query }).then(
