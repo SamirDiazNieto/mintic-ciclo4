@@ -1,0 +1,20 @@
+#google-signin {
+    display: flex;
+align-content: center !important;
+justify-content: space-around;
+float: none;
+}
+
+.botones-login{
+    display: flex;
+    justify-content: space-around;
+}
+
+#google-signin{
+    margin-top: 40px;
+    width: 60%;
+}
+#ingreso-gmail {
+    margin-left: .5rem;
+}
+
