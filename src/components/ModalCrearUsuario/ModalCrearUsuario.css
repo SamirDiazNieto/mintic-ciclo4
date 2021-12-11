@@ -1,0 +1,37 @@
+#lista {
+    display: grid;
+    background-color: rgba(0, 128, 255, 0.59);
+    padding: 33px 59px;
+    align-content: center;
+    justify-content: center;
+    }
+    
+    table > :not(caption) > * > * {
+        padding: 1.0rem 1.0rem;
+        padding-right: 4rem !important
+      }
+    
+    .titulos{
+      margin-top: 5rem;
+      text-align: center;
+      color: #7D146B ;
+    } 
+    td{
+      font-size: 15px !important;
+      color: #000 !important;
+    }
+    th{
+      color: #fff;
+      font-size: 19px;
+    }
+    
+    @media only screen and (max-width: 1399px) {
+     
+    table > :not(caption) > * > * {
+        padding-right: 0rem !important
+      }
+    .btn{
+      padding: 0rem 0rem
+    }
+    
+    }
