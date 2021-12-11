@@ -59,8 +59,8 @@ query GetUsers {
 }
 
 `;
-    const apolloFetch = createApolloFetch({ uri });
-
+    
+const apolloFetch = createApolloFetch({ uri });
     apolloFetch({ query }).then(
       (result) => {
         setUsuario({

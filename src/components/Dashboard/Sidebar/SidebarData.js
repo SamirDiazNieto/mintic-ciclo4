@@ -82,6 +82,11 @@ let sidebarDATA=[
 		// ],
 	},
 	{
+		titulo: 'Inscripciones',
+		ruta: '/dashboard/lista-inscripciones',
+		icono: <FaIcons.FaUser />,
+	},
+	{
 		titulo: 'Usuarios',
 		ruta: '/dashboard/lista-usuarios',
 		icono: <FaIcons.FaUserCog />,

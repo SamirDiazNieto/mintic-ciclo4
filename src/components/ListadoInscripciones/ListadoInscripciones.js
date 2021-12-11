@@ -1,5 +1,5 @@
 import React from "react";
-import "./ListadoUsuarios.css";
+import "./ListadoInscripciones.css";
 import { Table, Button, Container } from "reactstrap";
 import ModalCrearUsuario from "../ModalCrearUsuario/ModalCrearUsuario";
 import ModalEditarUsuario from "../ModalEditarUsuario/ModalEditarUsuario";

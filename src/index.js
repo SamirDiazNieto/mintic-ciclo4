@@ -5,7 +5,7 @@ import App from './App';
 import ListadoProductos from './components/ListadoProductos/ListadoProductos';
 import VistaVenta from './components/VistaVentas/VistaVenta';
 import ListadoUsuarios from './components/ListadoUsuarios/ListadoUsuarios';
-
+import ListadoInscripciones from './components/ListadoInscripciones/ListadoInscripciones'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
@@ -56,6 +56,8 @@ ReactDOM.render(
 				<Route exact path='/dashboard/lista-productos' component={ListadoProductos} />
 				<Route exact path='/dashboard/lista-ventas' component={VistaVenta} />
 				<Route exact path='/dashboard/lista-usuarios' component={ListadoUsuarios} />
+				<Route exact path='/dashboard/lista-Inscripciones' component={ListadoInscripciones} />
+				ListadoInscripciones
        			<Route exact component={App} />
 			</Switch>
 		</BrowserRouter>
