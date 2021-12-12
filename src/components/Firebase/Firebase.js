@@ -103,11 +103,7 @@ const userRegisterReturn=()=>{
     {"nameUser":localStorage.getItem("nameRegister"),
     "identification":localStorage.getItem("documentoRegister"),
     "typeUser":localStorage.getItem("tipoUsuarioRegister"),
-<<<<<<< HEAD
-    "state":localStorage.getItem("state")
-=======
     "state":localStorage.getItem("stateRegister")
->>>>>>> origin/SamirDiaz
   }
         )
         
