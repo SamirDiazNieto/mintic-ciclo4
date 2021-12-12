@@ -9,6 +9,7 @@ import {
 
 let contador = 0;
 const Estado = (estado=1) =>{
+  debugger;
   if (contador===1 && estado ===1 ) return true
 
 return false

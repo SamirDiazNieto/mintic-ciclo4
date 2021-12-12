@@ -33,7 +33,7 @@ import { createApolloFetch } from "apollo-fetch";
   const usernameRef = React.useRef(null)
   const [newVal, setNewVal] = React.useState(0);
   const [usuario, setUsuario] = useState();
- var [bandera, setBandera]=React.useState(true)
+ var [bandera, setBandera]=React.useState(false)
 
  const getUserByEmail=(email)=>{
   const query = `
@@ -89,6 +89,7 @@ import { createApolloFetch } from "apollo-fetch";
 
 
   const insertarlogin = () => {
+    debugger;
       let data = userRegisterReturn();
       console.log(data)
       let form = {
@@ -143,11 +144,11 @@ import { createApolloFetch } from "apollo-fetch";
         
        
   useEffect(() => {
-
+debugger;
     if (userLogin) {
       let result= Estado();
       history.replace("/dashboard");
-      if (login ||result) {
+      if (login || result) {
         debugger;
         insertarlogin()
       }
