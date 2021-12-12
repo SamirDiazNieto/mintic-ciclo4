@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { auth, resetPassword } from "../Firebase/Firebase";
 import { Alert } from 'reactstrap';
 import Sidebar from "../Dashboard/Sidebar/Sidebar";
 import './PerfilUsuario.css';
-import { userRegisterReturn } from "../Firebase/Firebase";
+import { userRegisterReturn, IdRegisterReturn } from "../Firebase/Firebase";
 import Foto from "../../assets/foto-perfil.png"
+import { createApolloFetch } from "apollo-fetch";
+
 
 
 const PerfilUsuario = () => {
+  const uri = "http://localhost:5010/graphql";
   const [email, setEmail] = useState("");
   const [user, loading] = useAuthState(auth);
   const [errors, setErrors] = useState("");
@@ -18,14 +21,34 @@ const PerfilUsuario = () => {
   const [success, setSuccess] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const history = useHistory();
-
   let userLogged = userRegisterReturn();
+  let idLogged = IdRegisterReturn();
+  console.log(idLogged)
+  const [usuario, setUsuario] = React.useState({
+    form: {
+     _id: idLogged._id ,
+     nameUser: userLogged.nameUser,
+     identification: userLogged.identification,
+    },
+  });
+
 
 
    useEffect(() => {
      if (loading) return;
      if (!user) history.replace("/");
    }, [user, loading]);
+   
+   const handleChange = (datosImput) => {
+
+    setUsuario((prevState) => ({
+      ...prevState,
+      form: {
+        ...prevState.form,
+        [datosImput.target.name]: datosImput.target.value,
+      },
+    }));
+  };
 
   const handleErrors = (error) => {
     setHasError(true);
@@ -40,6 +63,48 @@ const PerfilUsuario = () => {
     console.log(message);
     setSuccess(message);
   };
+
+  const editar = () => {
+    let usuarioAModificar = { ...usuario.form };
+    actualizarCustomer(usuarioAModificar);
+    
+  };
+  const actualizarCustomer = (customer) => {
+      console.log(customer)
+      const query=`
+      mutation UpdateUser($id: ID!, $nameUser: String!, $identification: String,  $state: String) {
+        updateUser( _id: $id, identification: $identification, nameUser: $nameUser,state: $state) {
+          email
+          typeUser
+        }
+      }
+        `
+        console.log(query)
+        
+        const apolloFetch = createApolloFetch({ uri });
+        
+        console.log(uri)
+        console.log(customer.identification)
+  
+        apolloFetch({
+          query: query, 
+          variables: { 
+            id: customer._id,
+            identification: customer.identification, 
+            nameUser: customer.nameUser, 
+            state: customer.state, 
+           }
+        })
+        .then(
+          (result) => {
+            console.log(result);
+          },
+          (error) => {
+            console.log(error);
+          setErrors(error);
+        }
+      ).catch(error => console.error('Error:', error))
+  }
 
   return(
     <>
@@ -61,23 +126,23 @@ const PerfilUsuario = () => {
             className="texto-actualizar-pass"
             name="identification"
             type="text"
-            // onChange={"handleChange"}
+            onChange={handleChange}
             placeholder="Identificación"
-            value={userLogged.identification}
+            value={usuario.form.identification}
             required
           />
           <input
             className="texto-actualizar-pass"
             name="nameUser"
             type="text"
-            // onChange={"handleChange"}
+             onChange={handleChange}
             placeholder="Nombre Usuario"
-            value={userLogged.nameUser}
+            value={usuario.form.nameUser}
             required
           />
                   <button
           className="actualizar-pass-btn"
-          onClick={() => resetPassword(email, handleErrors, handleSuccess)}
+          onClick={editar}
         >
           Actualizar Datos
         </button>
