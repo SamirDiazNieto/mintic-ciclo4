@@ -46,7 +46,7 @@ const SidebarWrap = styled.div`
 	width: 100%;
 `;
 
-const Sidebar = (estado) => {
+const Sidebar = () => {
 
 	const sideBarD=SidebarData()
 	const [sidebar, setSidebar] = useState(false);
