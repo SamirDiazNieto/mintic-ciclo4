@@ -17,6 +17,7 @@ async function  getUserByEmail(email){
 			email
 			identification
 			nameUser
+			typeUser
 			state
 		  }
 		}
