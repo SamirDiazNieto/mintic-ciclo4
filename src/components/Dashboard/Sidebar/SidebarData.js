@@ -59,7 +59,7 @@ const SidebarData = () => {
 	console.log(sidebarDATA)
 	let datos = userRegisterReturn();
 	console.log(datos);
-	debugger;
+	
 	const history = useHistory();
 	const auth = getAuth();
 	const [user] = useAuthState(auth);

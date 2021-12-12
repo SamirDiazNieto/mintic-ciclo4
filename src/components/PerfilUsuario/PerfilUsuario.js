@@ -18,9 +18,26 @@ const PerfilUsuario = () => {
   const [success, setSuccess] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const history = useHistory();
-
   let userLogged = userRegisterReturn();
-
+  const handleChange = (datosImput) => {
+    
+    console.log("datosImput")
+    console.log(datosImput)
+    //setParamenter(datosImput.target.value);
+    
+    setParameter((prevState) => ({
+      
+        ...prevState,
+        [datosImput.target.name]: datosImput.target.value,
+      
+    }));
+    console.log(parameter);
+    
+    
+  };
+  const [parameter, setParameter]=useState({"identification":userLogged.identification,
+  "nameUser": userLogged.nameUser
+  });
 
    useEffect(() => {
      if (loading) return;
@@ -61,18 +78,18 @@ const PerfilUsuario = () => {
             className="texto-actualizar-pass"
             name="identification"
             type="text"
-            // onChange={"handleChange"}
+            onChange={handleChange}
             placeholder="Identificación"
-            value={userLogged.identification}
+            value={parameter.identification}
             required
           />
           <input
             className="texto-actualizar-pass"
             name="nameUser"
             type="text"
-            // onChange={"handleChange"}
+            onChange={handleChange}
             placeholder="Nombre Usuario"
-            value={userLogged.nameUser}
+            value={parameter.nameUser}
             required
           />
                   <button
