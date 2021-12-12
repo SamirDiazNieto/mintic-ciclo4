@@ -90,15 +90,17 @@ const logout = () => {
   auth.signOut();
 };
 const userRegister=(nameRegisterFire, documentoRegisterFire, tipoUsuarioRegisterFire,stateRegisterFire)=>{
+  nameRegister=localStorage
    nameRegister =nameRegisterFire
    documentoRegister=documentoRegisterFire
    tipoUsuarioRegister=tipoUsuarioRegisterFire
-   stateRegister=stateRegisterFire
+   localStorage.setItem('stateRegister', stateRegisterFire);
+   
 
 }
 const userRegisterReturn=()=>{
   return (
-    {"nameUser":nameRegister,"identification":documentoRegister,"typeUser":tipoUsuarioRegister,"state":stateRegister}
+    {"nameUser":nameRegister,"identification":documentoRegister,"typeUser":tipoUsuarioRegister,"state":localStorage.getItem("state")}
         )
         
 }

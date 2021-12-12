@@ -19,6 +19,8 @@ const data = [];
 const uri = "http://localhost:5010/graphql";
 
 const ListadoInscripciones = () => {
+  var cat = localStorage.getItem("state")
+  console.log(cat)
   let userLogged = userRegisterReturn();
   console.log("userLogged")
   console.log(userLogged)
@@ -85,6 +87,7 @@ const ListadoInscripciones = () => {
     apolloFetch({ query }).then(
       (result) => {
         console.log(result)
+        
        
         
         //result.dateRegister=result.dateRegister.toUTCString();
@@ -238,7 +241,7 @@ console.log(query)
   }
   //console.log("fin")
 
-const classState={editar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",
+const classState={editar:"text-left text-uppercase m-1 mr-5 ",
                   eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
   console.log("userLogged.typeUser")
   console.log(userLogged.typeUser)

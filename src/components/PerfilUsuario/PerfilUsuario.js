@@ -10,7 +10,6 @@ import { userRegisterReturn } from "../Firebase/Firebase";
 
 
 const PerfilUsuario = () => {
-  console.log("ENtro")
   const [email, setEmail] = useState("");
   const [user, loading] = useAuthState(auth);
   const [errors, setErrors] = useState("");
