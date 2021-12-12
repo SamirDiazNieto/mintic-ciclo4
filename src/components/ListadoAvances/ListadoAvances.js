@@ -7,16 +7,20 @@ import { useHistory } from 'react-router';
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table';
 import useColumns from '../hooks/useColumnsUsuario';
 import { createApolloFetch } from 'apollo-fetch';
+import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const data = [];
 
 const uri = 'http://localhost:5010/graphql';
 
 const ListadoAvances = () => {
+	const auth = getAuth();
 	const [modalActualizar, setModalActualizar] = React.useState(false);
 	const [modalInsertar, setModalInsertar] = React.useState(false);
 	const [errors, setErrors] = React.useState(null);
 	const [newVal, setNewVal] = React.useState(0);
+	const [user, loading, error] = useAuthState(auth);
 	const history = useHistory();
 	const [avance, setAvance] = React.useState({
 		data: data,
@@ -68,7 +72,6 @@ const ListadoAvances = () => {
 				});
 			},
 			(error) => {
-				//setIsLoaded(true);
 				console.log(error);
 				setErrors(error);
 			}
@@ -96,36 +99,18 @@ const ListadoAvances = () => {
 			if (datoId.target.id === registro._id) {
 				advanceToModify = registro;
 			}
-			return; //console.log("Mostro Modal Actualizar");
+			return;
 		});
-
-		// listarUsuarios(userToModify);
 		setAvance({
 			...avance,
 			form: advanceToModify,
 		});
 		setModalActualizar(true);
 	};
+
 	const mostrarModalInsertar = () => {
 		setModalInsertar(true);
 		return; //console.log("Mostro Modal Actualizar");
-	};
-		console.log(query);
-
-		const apolloFetch = createApolloFetch({ uri });
-
-		apolloFetch({
-			query: query,
-			variables: { id: id },
-		}).then(
-			(result) => {
-				setNewVal(newVal + 1);
-			},
-			(error) => {
-				console.log(error);
-				setErrors(error);
-			}
-		);
 	};
 
 	const columns = useColumns();
@@ -145,6 +130,7 @@ const ListadoAvances = () => {
 		setGlobalFilter,
 		state: { globalFilter },
 	} = table;
+
 	function CarsFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
 		const totalCarsAvailable = preGlobalFilteredRows.length;
 		const [value, setValue] = React.useState(globalFilter);
@@ -239,11 +225,6 @@ const ListadoAvances = () => {
 												Editar
 											</Button>
 											{' . '}
-											{
-												<Button className='text-center text-uppercase m-1 ml-5' id={row.values._id} color='danger' onClick={eliminar}>
-													Eliminar
-												</Button>
-											}
 										</tr>
 									);
 								})

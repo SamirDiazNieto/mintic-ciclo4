@@ -1,5 +1,4 @@
 import React from 'react';
-import './ModalEditarUsuario.css';
 import { Button, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Input } from 'reactstrap';
 import { createApolloFetch } from 'apollo-fetch';
 

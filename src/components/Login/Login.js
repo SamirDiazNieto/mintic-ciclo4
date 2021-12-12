@@ -12,12 +12,17 @@ import { Spinner } from 'reactstrap';
 import { Estado } from '../Register/Register';
 import { 
   auth, 
+  IdRegister, 
   signInEmailAndPassword, 
-  signInWithGoogle,  
+  userRegister, 
+  userRegisterReturn,  
 } from "../Firebase/Firebase";
+import { createApolloFetch } from "apollo-fetch";
+
 
  const Login = () => {
-
+  localStorage.setItem('estado', 'Pendiente');
+  const uri = "http://localhost:5010/graphql";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userLogin, loading] = useAuthState(auth);
@@ -26,142 +31,129 @@ import {
   const [errors, setErrors] = useState("");
   const history = useHistory();
   const usernameRef = React.useRef(null)
-// // // // // Prueba para MongoDB
-	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-	const PATH_CUSTOMERS = process.env.REACT_APP_API_USUARIOS_PATH;
   const [newVal, setNewVal] = React.useState(0);
-  const data =[]
   const [usuario, setUsuario] = useState();
-  
-  /* React.useEffect(() => {
-    if (!userLogin) {
-    userLogin.getIdToken(true).then(token => {
-      // sessionStorage.setItem("token", token) 
-      const requestOptions = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      fetch(`${BASE_URL}${PATH_CUSTOMERS}`, requestOptions)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            //setIsLoaded(true);
-            setUsuario({
-              ...usuario,
-              data: result
-            });
+ var [bandera, setBandera]=React.useState(true)
 
-            
-          },
-          (error) => {
-            //setIsLoaded(true);
-            setErrors(error);
-          }
-        )
-    });
-  }}, [newVal]);
-  
- */ let banderaCrear=false
- var [bandera, setBandera]=React.useState(false)
-     const insertarlogin = () => {
-      
-      let form = {
-      nombreUsuario:userLogin.email,
-      password: "",
-      rol: "",
-      estado:"Pendiente"
+ const getUserByEmail=(email)=>{
+  const query = `
+      query GetUserByEmail($email: String) {
+        getUserByEmail(email: $email) {
+          _id
+          email
+          identification
+          nameUser
+          typeUser
+          state
+        }
       }
-      let usuarioACrear = form ;
-      userLogin.getIdToken(true).then(token => {
-        // sessionStorage.setItem("token", token) 
-        const requestOptions = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        fetch(`${BASE_URL}${PATH_CUSTOMERS}`, requestOptions)
-          .then(res => res.json())
-          .then(
-            (result) => {
-              // const bandera1= 
-              result.map((value)=>{
-                console.log(banderaCrear)
-                console.log(value.nombreUsuario)
-                if(value.nombreUsuario===form.nombreUsuario)
-                { console.log("bandera existente")
-                  banderaCrear=true
+
+    `;
+    console.log("..")
+    
+    const apolloFetch = createApolloFetch({ uri });
+    
+    apolloFetch({
+      query: query, 
+      variables: { email:email }
+      }).then(
+          (result) => {
+              console.log("result email")
+              console.log(result)
+              const info =result.data.getUserByEmail
+              if(result.data.getUserByEmail !== null){ 
+                console.log("Usuario existente")
+                console.log(info.email)
+                IdRegister(info._id)
+                userRegister(info.nameUser, info.identification, 
+                  info.typeUser,info.state)
                   setBandera(true)
-                  console.log(banderaCrear)
-                  return(true)
-                  //return(true)
-                  }
-  
-                  //console.log(value)
-                  
-              })
-              console.log(bandera)
-              if(banderaCrear===false){
-                userLogin.getIdToken(true).then(token => {
-                const requestOptions = {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                  },
-                  body: JSON.stringify(usuarioACrear)
-                };
-                
-                fetch(`${BASE_URL}${PATH_CUSTOMERS}`, requestOptions)
-                  .then(
-                    (response) => {
-                      response.json();
-                      setNewVal(newVal + 1);
-                    },
-                    (error) => {
-                      //setIsLoaded(true);
-                      setErrors(error);
-                    })
-                  });
-                }
-              //console.log(result)
-              //setIsLoaded(true);
-              setUsuario({
-                 result
-              });
-  
-              console.log("usuario")
-              console.log(usuario)
+                  console.log(usuario)
+
+              }else{
+                console.log("Usuario No existe")
+                setBandera(false)
+                bandera=false
+                console.log(usuario)
+                console.log(bandera)
+              }
             },
             (error) => {
-              //setIsLoaded(true);
+              console.log(error);
               setErrors(error);
             }
-          )
-      });
-      console.log("banderaCrear")
-      console.log(banderaCrear)
-      console.log(bandera)
-      banderaCrear=false
-      console.log(banderaCrear)
-    }
-     // // // // // Prueba para MongoDB
+            ).catch(error => console.log('Error:', error))
+        
+    
+      }
 
+
+  const insertarlogin = () => {
+      let data = userRegisterReturn();
+      console.log(data)
+      let form = {
+        // _id: "" ,
+        nameUser: data.nameUser,
+        identification: data.identification,
+        email: userLogin.email,
+        password: "",
+        typeUser: data.typeUser,
+        state: data.state,
+          }
+          let usuarioACrear = form ;
+          const existe =getUserByEmail(userLogin.email)
+          console.log(usuario)
+          console.log(bandera)
+          if(! bandera){
+            const query=`
+            mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $typeUser: String!) {
+              createUser(identification: $identification, nameUser: $nameUser, email: $email, typeUser: $typeUser) {
+                _id
+                email
+              }
+            }
+              `
+              const apolloFetch = createApolloFetch({ uri });
+              apolloFetch({
+                query: query, 
+                variables: { 
+                  identification: usuarioACrear.identification, 
+                  nameUser: usuarioACrear.nameUser, 
+                  email: usuarioACrear.email, 
+                  typeUser: usuarioACrear.typeUser
+                 }
+              })
+              .then(
+                (response) => {
+                  setNewVal(newVal + 1);
+                  
+                  const info =response.data.createUser
+                  userRegister(info.nameUser, info.identification, 
+                  info.typeUser,info.state)
+                  IdRegister(info._id)
+                },
+                (error) => {
+                  setErrors(error);
+                }).catch(error => console.error('Error:', error))
+          }
+             
+              }
+
+     
+        
+       
   useEffect(() => {
 
     if (userLogin) {
       let result= Estado();
       history.replace("/dashboard");
       if (login ||result) {
+        debugger;
         insertarlogin()
       }
     } 
   }, [userLogin, loading]);
-
+  
   if (loading) {
 
     return <Spinner children="" style={{ width: '10rem', height: '10rem', position: 'fixed', top: '17%', left: '38%' } } />;
@@ -197,15 +189,16 @@ import {
           />
           <button
           type="button"
-            onClick={() => signInEmailAndPassword(email, password, setLogin, setHasError, setErrors)}>
+            onClick={() =>{ signInEmailAndPassword(email, password, setLogin, setHasError, setErrors); getUserByEmail(email)
+            }}>
             Entrar
           </button>
-          <button 
+          {/* <button 
           type="button"
           id="ingreso-gmail"  
           onClick={()=>signInWithGoogle(setLogin, setHasError,setErrors)}>
             Login with Google
-          </button>
+          </button> */}
  </>
     );
  };

@@ -17,25 +17,25 @@ const data = [];
 const uri = 'http://localhost:5010/graphql';
 
 const ListadoUsuarios = () => {
-	const auth = getAuth();
-	const [modalActualizar, setModalActualizar] = React.useState(false);
-	const [modalInsertar, setModalInsertar] = React.useState(false);
-	const [errors, setErrors] = React.useState(null);
-	const [newVal, setNewVal] = React.useState(0);
-	const [user, loading, error] = useAuthState(auth);
-	const history = useHistory();
-	const [usuario, setUsuario] = React.useState({
-		data: data,
-		form: {
-			// _id: "" ,
-			nameUser: '',
-			identification: '',
-			email: '',
-			password: '',
-			typeUser: '',
-			// state: "",
-		},
-	});
+  const auth = getAuth();
+  const [modalActualizar, setModalActualizar] = React.useState(false);
+  const [modalInsertar, setModalInsertar] = React.useState(false);
+  const [errors, setErrors] = React.useState(null);
+  const [newVal, setNewVal] = React.useState(0);
+  const [user, loading, error] = useAuthState(auth);
+  const history = useHistory();
+  const [usuario, setUsuario] = React.useState({
+    data: data,
+    form: {
+      // _id: "" ,
+      nameUser: "",
+      identification: "",
+      email: "",
+      // password: "",
+      typeUser: "",
+      // state: "",
+    },
+  });
 
 	let arregloUsuarios = usuario.data;
 
@@ -52,7 +52,6 @@ query GetUsers {
     nameUser
     identification
     email
-    password
     typeUser
     state
   }
