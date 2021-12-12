@@ -109,12 +109,13 @@ const userRegisterReturn=()=>{
         
 }
 const IdRegister=(idRegisterFire)=>{
-  idRegister =idRegisterFire
+
+  localStorage.setItem('_id', idRegisterFire);
 }
 const IdRegisterReturn=()=>{
   return (
-    [{"_id":idRegister}
-        ])
+    {"_id":localStorage.getItem("_id")}
+        )
         
 }
 
