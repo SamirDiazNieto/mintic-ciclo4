@@ -102,7 +102,7 @@ const userRegisterReturn=()=>{
   return (
     {"nameUser":localStorage.getItem("nameRegister"),
     "identification":localStorage.getItem("documentoRegister"),
-    "typeUser":localStorage.getItem("tipoUsuarioRegisterFire"),
+    "typeUser":localStorage.getItem("tipoUsuarioRegister"),
     "state":localStorage.getItem("state")
   }
         )
