@@ -58,24 +58,19 @@ import { createApolloFetch } from "apollo-fetch";
       variables: { email:email }
       }).then(
           (result) => {
-            debugger;
               console.log("result email")
               console.log(result)
               const info =result.data.getUserByEmail
-              debugger;
               if(result.data.getUserByEmail !== null){ 
-                debugger;
                 console.log("Usuario existente")
                 console.log(info.email)
                 IdRegister(info._id)
-                
                 userRegister(info.nameUser, info.identification, 
                   info.typeUser,info.state)
                   setBandera(true)
                   console.log(usuario)
 
               }else{
-                debugger;
                 console.log("Usuario No existe")
                 setBandera(false)
                 bandera=false
@@ -109,7 +104,6 @@ import { createApolloFetch } from "apollo-fetch";
           const existe =getUserByEmail(userLogin.email)
           console.log(usuario)
           console.log(bandera)
-          debugger;
           if(bandera){
             const query=`
             mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $typeUser: String!) {
@@ -194,8 +188,8 @@ import { createApolloFetch } from "apollo-fetch";
           />
           <button
           type="button"
-            onClick={() =>{ signInEmailAndPassword(email, password, setLogin, setHasError, setErrors)
-            getUserByEmail(email)}}>
+            onClick={() =>{ getUserByEmail(email); signInEmailAndPassword(email, password, setLogin, setHasError, setErrors)
+            }}>
             Entrar
           </button>
           {/* <button 

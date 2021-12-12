@@ -23,7 +23,7 @@ async function  getUserByEmail(email){
 		}
   
 	  `;
-	  console.log("..")
+	  //console.log("..")
 	  
 	  const apolloFetch = createApolloFetch({ uri });
 	  
@@ -34,23 +34,21 @@ async function  getUserByEmail(email){
 			(result) => {
 				console.log(result)
 				const info =result.data.getUserByEmail
-				debugger;
 				if(result.data.getUserByEmail !== null){ 
 				  
-				  console.log("Usuario existente")
-				  console.log(info.email)
+				  //console.log("Usuario existente")
+				  //console.log(info.email)
 				  IdRegister(info._id)
 				  
 				  userRegister(info.nameUser, info.identification, 
 					info.typeUser,info.state)
   
 				}else{
-				  debugger;
 				  console.log("Usuario No existe")
 				}
 			  },
 			  (error) => {
-				console.log(error);
+				//console.log(error);
 			  }
 			  ).catch(error => console.log('Error:', error))
 		  
@@ -64,10 +62,9 @@ function Dashboard() {
 	let userLogged = userRegisterReturn();
 
 
-
   
 
-  if (!user) {
+  if (!user && !userLogged.nameUser) {
 		history.replace("/");
 		return(
 			<>
@@ -76,26 +73,27 @@ function Dashboard() {
 			</>
 		);
 	} else {
-
-		if(userLogged.nameUser=== ""){
-			debugger;
+		if(userLogged.nameUser=== "" ){
 			 getUserByEmail(user.email)
 		};
+		console.log("userLogged")
 		console.log(userLogged)
-  console.log("listado")
 	return (
 		<>
-			<Sidebar />
+		<Sidebar estado={true} />
+
 		<center>
 			<div className="bienvenido-dashboard">
 				<h1 className="title-dashboard">Bienvenidos al mejor gestor de proyectos </h1><br/>
 				<h2>Grupo CA-JS</h2>
 
 				<img className="imagen-login" src={(user.photoURL) ? user.photoURL: Foto} alt="" />
-				<h3>Hola, {userLogged.nameUser }</h3>
+				<h3>Hola, {userLogged.nameUser}</h3>
 				<h3>Tu correo es: {user.email} </h3>
+				<h2>El estado de tu usuario es: {userLogged.state.toUpperCase()} </h2>
 			</div>
 		</center>
+
 		</>
 
 		
