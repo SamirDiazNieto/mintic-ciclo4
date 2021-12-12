@@ -292,3 +292,9 @@ img {
 .title-dashboard{
 margin-top: 5rem;
 }
+
+/* ------------------- INICIO ESTILOS DE TABLE ------------------- */
+
+table tr td:nth-child(1), table th:nth-child(1) {
+  display: none;
+}

@@ -33,7 +33,6 @@ import { createApolloFetch } from "apollo-fetch";
   const usernameRef = React.useRef(null)
   const [newVal, setNewVal] = React.useState(0);
   const [usuario, setUsuario] = useState();
-   let banderaCrear=false
  var [bandera, setBandera]=React.useState(true)
 
  const getUserByEmail=(email)=>{
