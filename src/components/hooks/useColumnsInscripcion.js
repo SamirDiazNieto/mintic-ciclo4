@@ -1,4 +1,4 @@
-import { visible } from "ansi-colors";
+
 import { useMemo } from "react";
 
 export default function useColumns() {

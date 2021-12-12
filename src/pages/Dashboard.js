@@ -5,18 +5,69 @@ import { getAuth } from "firebase/auth";
 import Foto from "../assets/foto-perfil.png"
 import { useHistory } from "react-router-dom";
 import { userRegisterReturn } from '../components/Firebase/Firebase';
+import { IdRegister, userRegister } from '../components/Firebase/Firebase';
+import { createApolloFetch } from 'apollo-fetch';
 
-
-function Dashboard() {
-	let userLogged = userRegisterReturn();
-  console.log(userLogged)
-  console.log("listado")
+const uri = "http://localhost:5010/graphql";
+async function  getUserByEmail(email){
+	const query = `
+		query GetUserByEmail($email: String) {
+		  getUserByEmail(email: $email) {
+			_id
+			email
+			identification
+			nameUser
+			typeUser
+			state
+		  }
+		}
   
-
+	  `;
+	  console.log("..")
+	  
+	  const apolloFetch = createApolloFetch({ uri });
+	  
+	  await apolloFetch({
+		query: query, 
+		variables: { email:email }
+		}).then(
+			(result) => {
+				console.log(result)
+				const info =result.data.getUserByEmail
+				debugger;
+				if(result.data.getUserByEmail !== null){ 
+				  
+				  console.log("Usuario existente")
+				  console.log(info.email)
+				  IdRegister(info._id)
+				  
+				  userRegister(info.nameUser, info.identification, 
+					info.typeUser,info.state)
+  
+				}else{
+				  debugger;
+				  console.log("Usuario No existe")
+				}
+			  },
+			  (error) => {
+				console.log(error);
+			  }
+			  ).catch(error => console.log('Error:', error))
+		  
+	  
+		}
+function Dashboard() {
 	const auth = getAuth();
 	const [user] = useAuthState(auth);
 	const history = useHistory();
-	if (!user) {
+
+	let userLogged = userRegisterReturn();
+
+
+
+  
+
+  if (!user) {
 		history.replace("/");
 		return(
 			<>
@@ -26,6 +77,12 @@ function Dashboard() {
 		);
 	} else {
 
+		if(userLogged.nameUser=== ""){
+			debugger;
+			 getUserByEmail(user.email)
+		};
+		console.log(userLogged)
+  console.log("listado")
 	return (
 		<>
 			<Sidebar />

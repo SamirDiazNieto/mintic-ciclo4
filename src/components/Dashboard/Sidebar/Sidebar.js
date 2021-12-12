@@ -11,7 +11,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom";
 import ListadoUsuarios from '../../ListadoUsuarios/ListadoUsuarios';
+import { IdRegister , userRegister , userRegisterReturn} from '../../Firebase/Firebase';
 
+import { createApolloFetch } from 'apollo-fetch';
 const data = [
 
 ];
@@ -59,6 +61,55 @@ const SidebarWrap = styled.div`
 `;
 
 const Sidebar = () => {
+	const uri = "http://localhost:5010/graphql";
+async function  getUserByEmail(email){
+	const query = `
+		query GetUserByEmail($email: String) {
+		  getUserByEmail(email: $email) {
+			_id
+			email
+			identification
+			nameUser
+			typeUser
+			state
+		  }
+		}
+  
+	  `;
+	  console.log("..")
+	  
+	  const apolloFetch = createApolloFetch({ uri });
+	  
+	  await apolloFetch({
+		query: query, 
+		variables: { email:email }
+		}).then(
+			(result) => {
+				console.log(result)
+				const info =result.data.getUserByEmail
+				debugger;
+				if(result.data.getUserByEmail !== null){ 
+				  
+				  console.log("Usuario existente")
+				  console.log(info.email)
+				  IdRegister(info._id)
+
+				  
+				  userRegister(info.nameUser, info.identification, 
+					info.typeUser,info.state)
+  
+				}else{
+				  debugger;
+				  console.log("Usuario No existe")
+				}
+			  },
+			  (error) => {
+				console.log(error);
+			  }
+			  ).catch(error => console.log('Error:', error))
+		  
+	  
+		}
 	const sideBarD=SidebarData()
 	
 	const [sidebar, setSidebar] = useState(false);

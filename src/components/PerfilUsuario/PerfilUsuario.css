@@ -1,0 +1,38 @@
+.actualizar-pass {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .actualizar-pass-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    /* background-color: #dcdcdc; */
+    /* padding: 30px; */
+    /* display: grid; */
+    background-color: rgba(0, 128, 255, 0.59);
+    padding: 33px 59px;
+    align-content: center;
+    justify-content: center;
+  }
+  .texto-actualizar-pass {
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .actualizar-pass-btn {
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: none;
+    color: white;
+    background-color: black;
+  }
+  .actualizar-pass div {
+    margin-top: 7px;
+  }
+#link{
+  color: #fff;
+}
