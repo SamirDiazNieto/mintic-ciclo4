@@ -13,7 +13,7 @@ import { getAuth } from "firebase/auth";
 import { createApolloFetch } from "apollo-fetch";
 
 
-const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, setNewVal, newVal,uri }) => {
+const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, setNewVal, newVal, uri }) => {
   const auth = getAuth(); 
   const [user, loading, error] = useAuthState(auth);
 

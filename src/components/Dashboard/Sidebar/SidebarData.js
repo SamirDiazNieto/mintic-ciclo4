@@ -56,30 +56,7 @@ let sidebarDATA=[
 		titulo: 'Ventas',
 		ruta: '/dashboard/lista-ventas',
 		icono: <BsIcons.BsReceiptCutoff />,
-		// iconoCerrado: <RiIcons.RiArrowDownSFill />,
-		// iconoAbierto: <RiIcons.RiArrowUpSFill />,
-		// subNav: [
-		// 	{
-		// 		titulo: 'Registrar',
-		// 		ruta: '/dashboard/ventas/registrar',
-		// 		icono: <AiIcons.AiOutlineAppstoreAdd />,
-		// 	},
-		// 	{
-		// 		titulo: 'Listar',
-		// 		ruta: '/dashboard/ventas/listar',
-		// 		icono: <FaIcons.FaListOl />,
-		// 	},
-		// 	{
-		// 		titulo: 'Buscar',
-		// 		ruta: '/dashboard/ventas/buscar',
-		// 		icono: <AiIcons.AiOutlineFileSearch />,
-		// 	},
-		// 	{
-		// 		titulo: 'Actualizar',
-		// 		ruta: '/dashboard/ventas/actualizar',
-		// 		icono: <FaIcons.FaEdit />,
-		// 	},
-		// ],
+		
 	},
 	{
 		titulo: 'Inscripciones',
@@ -90,20 +67,13 @@ let sidebarDATA=[
 		titulo: 'Usuarios',
 		ruta: '/dashboard/lista-usuarios',
 		icono: <FaIcons.FaUserCog />,
-		// iconoCerrado: <RiIcons.RiArrowDownSFill />,
-		// iconoAbierto: <RiIcons.RiArrowUpSFill />,
-		// subNav: [
-		// 	{
-		// 		titulo: 'Listar',
-		// 		ruta: '/dashboard/usuarios/listar',
-		// 		icono: <FaIcons.FaListOl />,
-		// 	},
-		// 	{
-		// 		titulo: 'Actualizar',
-		// 		ruta: '/dashboard/usuarios/actualizar',
-		// 		icono: <FaIcons.FaEdit />,
-		// 	},
-		// ],
+		
+	},
+	{
+		titulo: 'Actualizar mis Datos',
+		ruta: '/dashboard/actualizar-datos',
+		icono: <FaIcons.FaEdit />,
+		
 	},
 	
 ];

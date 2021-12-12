@@ -9,6 +9,7 @@ import ListadoInscripciones from './components/ListadoInscripciones/ListadoInscr
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
+import PerfilUser from './components/PerfilUser/PerfilUser';
 
 
 //////////////////// APOLLO //////////////////// 
@@ -57,8 +58,8 @@ ReactDOM.render(
 				<Route exact path='/dashboard/lista-ventas' component={VistaVenta} />
 				<Route exact path='/dashboard/lista-usuarios' component={ListadoUsuarios} />
 				<Route exact path='/dashboard/lista-Inscripciones' component={ListadoInscripciones} />
-				ListadoInscripciones
-       			<Route exact component={App} />
+				<Route exact path='/dashboard/actualizar-datos' component={PerfilUser} />
+				<Route exact component={App} />
 			</Switch>
 		</BrowserRouter>
 	</React.StrictMode>
