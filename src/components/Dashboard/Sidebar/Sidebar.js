@@ -56,6 +56,10 @@ const Sidebar = (estado) => {
 	
 	const logout = () => {
 		auth.signOut().then(function () {
+			localStorage.removeItem('nameRegister');
+			localStorage.removeItem('documentoRegister');
+			localStorage.removeItem('tipoUsuarioRegister');
+			localStorage.removeItem('stateRegister');
 		  console.log("loggedout");
 		  history.replace("/");
 
