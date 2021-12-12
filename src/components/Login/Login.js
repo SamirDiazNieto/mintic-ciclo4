@@ -104,7 +104,7 @@ import { createApolloFetch } from "apollo-fetch";
           const existe =getUserByEmail(userLogin.email)
           console.log(usuario)
           console.log(bandera)
-          if(bandera){
+          if(!bandera){
             const query=`
             mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $typeUser: String!) {
               createUser(identification: $identification, nameUser: $nameUser, email: $email, typeUser: $typeUser) {
@@ -148,6 +148,7 @@ import { createApolloFetch } from "apollo-fetch";
       let result= Estado();
       history.replace("/dashboard");
       if (login ||result) {
+        debugger;
         insertarlogin()
       }
     } 
@@ -188,7 +189,7 @@ import { createApolloFetch } from "apollo-fetch";
           />
           <button
           type="button"
-            onClick={() =>{ getUserByEmail(email); signInEmailAndPassword(email, password, setLogin, setHasError, setErrors)
+            onClick={() =>{ signInEmailAndPassword(email, password, setLogin, setHasError, setErrors); getUserByEmail(email)
             }}>
             Entrar
           </button>

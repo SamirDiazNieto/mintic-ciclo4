@@ -64,7 +64,7 @@ function Dashboard() {
 
   
 
-  if (!user && !userLogged.nameUser) {
+  if (!user) {
 		history.replace("/");
 		return(
 			<>

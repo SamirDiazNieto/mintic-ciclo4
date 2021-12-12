@@ -7,6 +7,7 @@ import { Alert } from 'reactstrap';
 import Sidebar from "../Dashboard/Sidebar/Sidebar";
 import './PerfilUsuario.css';
 import { userRegisterReturn } from "../Firebase/Firebase";
+import Foto from "../../assets/foto-perfil.png"
 
 
 const PerfilUsuario = () => {
@@ -45,6 +46,7 @@ const PerfilUsuario = () => {
     <Sidebar />
     <div className="actualizar-pass">
       <div className="actualizar-pass-container">
+        <img className="imagen-user" src={Foto} alt="" />
         {hasError &&
           <Alert color="warning">
             {errors}
