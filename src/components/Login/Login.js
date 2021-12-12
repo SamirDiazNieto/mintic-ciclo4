@@ -44,6 +44,7 @@ import { createApolloFetch } from "apollo-fetch";
           email
           identification
           nameUser
+          typeUser
           state
         }
       }

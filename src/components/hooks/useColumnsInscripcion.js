@@ -7,13 +7,13 @@ export default function useColumns() {
     {
       Header: "_id",
       accessor: "_id",
-      isVisible:false
+     
     
     },
     {
        Header: "Estudiante",
        accessor: "student.nameUser",
-       isVisible:false
+       
        
        
      },
@@ -28,12 +28,12 @@ export default function useColumns() {
      {
        Header: "Estado",
        accessor: "state",
-       isVisible:true
+       
      },
       {
        Header: "Fecha Registro",
        accessor: "dateRegister",
-       isVisible:false,
+       
        cell:({ value }) => value.toUTCString()
      },
      {

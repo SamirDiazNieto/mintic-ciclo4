@@ -20,7 +20,6 @@ const uri = "http://localhost:5010/graphql";
 
 const ListadoInscripciones = () => {
   let userLogged = userRegisterReturn();
-  console.log("userLogged")
   console.log(userLogged)
 
   const auth = getAuth();
@@ -196,7 +195,7 @@ console.log(query)
     data: inscripcion.data,
   });
 
-  var table = useTable({ columns, data: dataTabla.data}, useGlobalFilter);
+  var table = useTable({ columns, data: dataTabla.data, isVisible:[true, true, false,true, true, false]}, useGlobalFilter);
   const {
     getTableProps,
     getTableBodyProps,
@@ -238,14 +237,6 @@ console.log(query)
   }
   //console.log("fin")
 
-const classState={editar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",
-                  eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
-  console.log("userLogged.typeUser")
-  console.log(userLogged.typeUser)
-  if(userLogged.typeUser==="Administrador"){
-    classState.editar="text-left text-uppercase m-1 mr-5"
-    classState.eliminar="text-left text-uppercase m-1 mr-5"
-  }
   return (
     <>
       <Sidebar />
@@ -280,7 +271,7 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 d-none d-print-block
                       // Recorremos cada columna del conjunto para acceder a su información
                       headerGroup.headers.map((column) => (
                         // Añadimos las propiedades a cada celda de la cabecera
-                        <th  className= "w-3 p-2 " {...column.getHeaderProps()}>
+                        <th  className= "w-3 p-2 "  isVisible={false} {...column.getHeaderProps()}>
                           {
                             // Pintamos el título de nuestra columna (propiedad "Header")
                             column.render("Header")
@@ -319,8 +310,7 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 d-none d-print-block
                         })
                       }
                       <Button
-                        className={classState.editar}
-                       
+                        className="text-left text-uppercase m-1 mr-5 "
                         id={row.values._id}
                         color="primary"
                         isVisible={true}
@@ -331,10 +321,10 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 d-none d-print-block
                       {" . "}
                       {
                         <Button
-                          className={classState.eliminar}
+                          className="text-center text-uppercase m-1 ml-5"
                           id={row.values._id}
                           color="danger"
-                          onClick={eliminar, console.log(row)}
+                          onClick={eliminar}
                           available={false}
                           isVisible={true}
                         >
