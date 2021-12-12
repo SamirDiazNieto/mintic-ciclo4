@@ -61,10 +61,7 @@ function Dashboard() {
 
 	let userLogged = userRegisterReturn();
 
-
-  
-
-  if (!user) {
+  if (!user || !userLogged) {
 		history.replace("/");
 		return(
 			<>
@@ -88,9 +85,9 @@ function Dashboard() {
 				<h2>Grupo CA-JS</h2>
 
 				<img className="imagen-login" src={(user.photoURL) ? user.photoURL: Foto} alt="" />
-				<h3>Hola, {userLogged.nameUser}</h3>
-				<h3>Tu correo es: {user.email} </h3>
-				<h2>El estado de tu usuario es: {userLogged.state.toUpperCase()} </h2>
+				<h3>Hola, {(userLogged.nameUser)? userLogged.nameUser: ""}</h3>
+				<h3>Tu correo es: {(user.email)? user.email: ""} </h3>
+				<h2>El estado de tu usuario es: {(userLogged.state)? userLogged.state.toUpperCase(): ""} </h2>
 			</div>
 		</center>
 
