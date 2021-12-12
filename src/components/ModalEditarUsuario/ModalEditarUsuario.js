@@ -56,7 +56,7 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
       // fetch(`${BASE_URL}${PATH_CUSTOMERS}/${customer._id}`, requestOptions)
       console.log(customer)
       const query=`
-      mutation UpdateUser($id: ID!, $nameUser: String!, $identification: String, $password: String!, $state: String) {
+      mutation UpdateUser($id: ID!, $nameUser: String!, $identification: String, $password: String, $state: String!) {
         updateUser( _id: $id, identification: $identification, nameUser: $nameUser, password: $password,state: $state) {
           email
           typeUser
