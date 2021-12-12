@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { auth, resetPassword } from "../Firebase/Firebase";
+import { auth, IdRegisterReturn, resetPassword } from "../Firebase/Firebase";
 import { Alert } from 'reactstrap';
 import Sidebar from "../Dashboard/Sidebar/Sidebar";
 import './PerfilUsuario.css';
@@ -19,25 +19,26 @@ const PerfilUsuario = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const history = useHistory();
   let userLogged = userRegisterReturn();
-  const handleChange = (datosImput) => {
-    
-    console.log("datosImput")
-    console.log(datosImput)
-    //setParamenter(datosImput.target.value);
-    
-    setParameter((prevState) => ({
-      
-        ...prevState,
-        [datosImput.target.name]: datosImput.target.value,
-      
-    }));
-    console.log(parameter);
-    
-    
-  };
-  const [parameter, setParameter]=useState({"identification":userLogged.identification,
-  "nameUser": userLogged.nameUser
+
+  let idLogged = IdRegisterReturn();
+  const [usuario, setUsuario] = React.useState({
+  
+    form: {
+     _id: idLogged._id ,
+     nameUser: userLogged.nameUser,
+     identification: userLogged.identification,
+    },
   });
+  const handleChange = (datosImput) => {
+
+    setUsuario((prevState) => ({
+      ...prevState,
+      form: {
+        ...prevState.form,
+        [datosImput.target.name]: datosImput.target.value,
+      },
+    }));
+  };
 
    useEffect(() => {
      if (loading) return;
@@ -80,7 +81,7 @@ const PerfilUsuario = () => {
             type="text"
             onChange={handleChange}
             placeholder="Identificación"
-            value={parameter.identification}
+            value={usuario.form.identification}
             required
           />
           <input
@@ -89,7 +90,7 @@ const PerfilUsuario = () => {
             type="text"
             onChange={handleChange}
             placeholder="Nombre Usuario"
-            value={parameter.nameUser}
+            value={usuario.form.nameUser}
             required
           />
                   <button

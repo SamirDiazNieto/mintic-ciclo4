@@ -31,7 +31,7 @@ const ListadoUsuarios = () => {
       nameUser: "",
       identification: "",
       email: "",
-      password: "",
+      // password: "",
       typeUser: "",
       // state: "",
     },
@@ -52,7 +52,6 @@ query GetUsers {
     nameUser
     identification
     email
-    password
     typeUser
     state
   }

@@ -26,8 +26,8 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
     let usuarioACrear = { ...usuario.form };
     console.log(usuarioACrear)
     const query=`
-    mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $password: String, $typeUser: String!) {
-      createUser(identification: $identification, nameUser: $nameUser, email: $email, password: $password, typeUser: $typeUser) {
+    mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $typeUser: String!) {
+      createUser(identification: $identification, nameUser: $nameUser, email: $email, typeUser: $typeUser) {
         _id
         nameUser
       }
@@ -43,7 +43,6 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
           identification: usuarioACrear.identification, 
           nameUser: usuarioACrear.nameUser, 
           email: usuarioACrear.email, 
-          password: usuarioACrear.password, 
           typeUser: usuarioACrear.typeUser
          }
       })
@@ -116,7 +115,7 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
           />
         </FormGroup>
 
-        <FormGroup>
+        {/* <FormGroup>
           <label>
             Contraseña:
           </label>
@@ -129,7 +128,7 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
             step="any"
             onChange={handleChange}
           />
-        </FormGroup>
+        </FormGroup> */}
 
         <FormGroup>
           <label>
