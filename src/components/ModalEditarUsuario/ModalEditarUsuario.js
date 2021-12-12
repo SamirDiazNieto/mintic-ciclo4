@@ -56,8 +56,8 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
       // fetch(`${BASE_URL}${PATH_CUSTOMERS}/${customer._id}`, requestOptions)
       console.log(customer)
       const query=`
-      mutation UpdateUser($id: ID!, $nameUser: String!, $identification: String, $password: String!, $state: String) {
-        updateUser( _id: $id, identification: $identification, nameUser: $nameUser, password: $password,state: $state) {
+      mutation UpdateUser($id: ID!, $nameUser: String!, $identification: String,  $state: String) {
+        updateUser( _id: $id, identification: $identification, nameUser: $nameUser,state: $state) {
           email
           typeUser
         }
@@ -76,7 +76,6 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
             id: customer._id,
             identification: customer.identification, 
             nameUser: customer.nameUser, 
-            password: customer.password, 
             state: customer.state, 
            }
         })
@@ -146,7 +145,7 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
               value={usuario.form.email}
             />
           </FormGroup> */}
-           <FormGroup>
+           {/* <FormGroup>
             <label>
             Contraseña:
             </label>
@@ -158,7 +157,7 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
               onChange={handleChange}
               value={usuario.form.password}
             />
-          </FormGroup> 
+          </FormGroup>  */}
           {/* <FormGroup>
           <label>
           Tipo de Usuario:

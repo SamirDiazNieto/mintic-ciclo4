@@ -104,7 +104,7 @@ import { createApolloFetch } from "apollo-fetch";
           const existe =getUserByEmail(userLogin.email)
           console.log(usuario)
           console.log(bandera)
-          if(!bandera){
+          if(! bandera){
             const query=`
             mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $typeUser: String!) {
               createUser(identification: $identification, nameUser: $nameUser, email: $email, typeUser: $typeUser) {
