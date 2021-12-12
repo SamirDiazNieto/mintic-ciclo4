@@ -1,5 +1,5 @@
 import React from 'react';
-import './ModalCrearUsuario.css';
+import './ModalCrearInscripcion.css';
 import {
   Button,
   Modal,
@@ -13,7 +13,7 @@ import { getAuth } from "firebase/auth";
 import { createApolloFetch } from "apollo-fetch";
 
 
-const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, setNewVal, newVal, uri }) => {
+const ModalCrearInscripcion = ({ inscripcion, handleChange, setModalInsertar, isOpen, setNewVal, newVal,uri }) => {
   const auth = getAuth(); 
   const [user, loading, error] = useAuthState(auth);
 
@@ -23,11 +23,11 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
     setModalInsertar(false);
   };
   const insertar = () => {
-    let usuarioACrear = { ...usuario.form };
-    console.log(usuarioACrear)
+    let inscripcionACrear = { ...inscripcion.form };
+    console.log(inscripcionACrear)
     const query=`
-    mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $typeUser: String!) {
-      createUser(identification: $identification, nameUser: $nameUser, email: $email, typeUser: $typeUser) {
+    mutation CreateUser($identification: String!, $nameUser: String!, $email: String!, $password: String!, $typeUser: String) {
+      createUser(identification: $identification, nameUser: $nameUser, email: $email, password: $password, typeUser: $typeUser) {
         _id
         nameUser
       }
@@ -40,10 +40,11 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
       apolloFetch({
         query: query, 
         variables: { 
-          identification: usuarioACrear.identification, 
-          nameUser: usuarioACrear.nameUser, 
-          email: usuarioACrear.email, 
-          typeUser: usuarioACrear.typeUser
+          identification: inscripcionACrear.identification, 
+          nameUser: inscripcionACrear.nameUser, 
+          email: inscripcionACrear.email, 
+          password: inscripcionACrear.password, 
+          typeUser: inscripcionACrear.typeUser
          }
       })
       .then(
@@ -62,7 +63,7 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
   return (
     <Modal isOpen={isOpen}>
       <ModalHeader>
-        <div><h3>Insertar Usuario</h3></div>
+        <div><h3>Insertar Inscripcion</h3></div>
       </ModalHeader>
 
       <ModalBody>
@@ -75,7 +76,7 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
             className="form-control"
             readOnly
             type="text"
-            value={usuario.data.length + 1}
+            value={inscripcion.data.length + 1}
           />
         </FormGroup> */}
                 <FormGroup>
@@ -115,7 +116,7 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
           />
         </FormGroup>
 
-        {/* <FormGroup>
+        <FormGroup>
           <label>
             Contraseña:
           </label>
@@ -128,11 +129,11 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
             step="any"
             onChange={handleChange}
           />
-        </FormGroup> */}
+        </FormGroup>
 
         <FormGroup>
           <label>
-          Tipo de Usuario:
+          Tipo de Inscripcion:
           </label>
           <select name="typeUser" className="form-control"  type="text" onChange={handleChange}>
             <option value="-1" type="text">Seleccione una opción</option>
@@ -179,4 +180,4 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
 
 
 
-export default ModalCrearUsuario;
+export default ModalCrearInscripcion;

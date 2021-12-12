@@ -31,7 +31,7 @@ const ListadoUsuarios = () => {
       nameUser: "",
       identification: "",
       email: "",
-      password: "",
+      // password: "",
       typeUser: "",
       // state: "",
     },
@@ -52,15 +52,14 @@ query GetUsers {
     nameUser
     identification
     email
-    password
     typeUser
     state
   }
 }
 
 `;
-    
-const apolloFetch = createApolloFetch({ uri });
+    const apolloFetch = createApolloFetch({ uri });
+
     apolloFetch({ query }).then(
       (result) => {
         setUsuario({

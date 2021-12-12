@@ -5,7 +5,7 @@ export default function useColumns() {
    () => [
     {
       Header: "_id",
-      accessor: "_id"
+      accessor: "_id",
     },
      {
        Header: "Nombre Usuario",
@@ -19,10 +19,10 @@ export default function useColumns() {
        Header: "Correo",
        accessor: "email"
      },
-     {
-       Header: "Contraseña",
-       accessor: "password"
-     },
+    //  {
+    //    Header: "Contraseña",
+    //    accessor: "password"
+    //  },
      {
        Header: "Tipo Usuario",
        accessor: "typeUser"

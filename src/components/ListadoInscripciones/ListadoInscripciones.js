@@ -1,22 +1,29 @@
 import React from "react";
 import "./ListadoInscripciones.css";
 import { Table, Button, Container } from "reactstrap";
-import ModalCrearUsuario from "../ModalCrearUsuario/ModalCrearUsuario";
-import ModalEditarUsuario from "../ModalEditarUsuario/ModalEditarUsuario";
+import ModalCrearInscripcion from "../ModalCrearInscripcion/ModalCrearInscripcion";
+import ModalEditarInscripcion from "../ModalEditarInscripcion/ModalEditarInscripcion";
 import Sidebar from "../Dashboard/Sidebar/Sidebar";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router";
 
 import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
-import useColumns from "../hooks/useColumnsUsuario";
+import useColumns from "../hooks/useColumnsInscripcion";
 import { createApolloFetch } from "apollo-fetch";
+import DateFromTime from "es-abstract/5/DateFromTime";
+import { userRegisterReturn } from "../Firebase/Firebase";
 
 const data = [];
 
 const uri = "http://localhost:5010/graphql";
 
-const ListadoUsuarios = () => {
+const ListadoInscripciones = () => {
+  
+  let userLogged = userRegisterReturn();
+  console.log("userLogged")
+  console.log(userLogged)
+
   const auth = getAuth();
   const [modalActualizar, setModalActualizar] = React.useState(false);
   const [modalInsertar, setModalInsertar] = React.useState(false);
@@ -24,20 +31,29 @@ const ListadoUsuarios = () => {
   const [newVal, setNewVal] = React.useState(0);
   const [user, loading, error] = useAuthState(auth);
   const history = useHistory();
-  const [usuario, setUsuario] = React.useState({
+  const [inscripcion, setInscripcion] = React.useState({
     data: data,
     form: {
+      _id:"",
+      state:"",
+      dateRegister:DateFromTime,
+      dateOut:"",
+      project:{
+        _id:"",
+        name:""
+      },
+      student:{
+        _id:"",
+        nameUser:""
+        
+      }
+      
+  }
       // _id: "" ,
-      nameUser: "",
-      identification: "",
-      email: "",
-      password: "",
-      typeUser: "",
-      // state: "",
-    },
+      
   });
 
-  let arregloUsuarios = usuario.data;
+  let arregloInscripciones = inscripcion.data;
 
   React.useEffect(() => {
     if (loading) return;
@@ -45,32 +61,44 @@ const ListadoUsuarios = () => {
   }, [user, loading]);
 
   React.useEffect(() => {
-    const query = `
-query GetUsers {
-  getUsers {
-    _id
-    nameUser
-    identification
-    email
-    password
-    typeUser
-    state
-  }
-}
 
-`;
+      const query = `
+    query GetInscription {
+      getInscription {
+        _id
+        state
+        dateRegister
+        dateOut
+        project {
+          _id
+          name
+        }
+        student {
+          nameUser
+        }
+      }
+    }
+
+    `;
+
     const apolloFetch = createApolloFetch({ uri });
 
     apolloFetch({ query }).then(
       (result) => {
-        setUsuario({
-          ...usuario,
-          data: result.data.getUsers,
+        console.log(result)
+        
+       
+        
+        //result.dateRegister=result.dateRegister.toUTCString();
+        setInscripcion({
+          ...inscripcion,
+          data: result.data.getInscription,
         });
+        console.log(inscripcion)
 
         setDataTabla({
           ...dataTabla,
-          data: result.data.getUsers,
+          data: result.data.getInscription,
         });
       },
       (error) => {
@@ -86,10 +114,10 @@ query GetUsers {
   const handleChange = (datosImput) => {
     setDataTabla((prevState) => ({
       ...prevState,
-      data: usuario.data,
+      data: inscripcion.data,
     }));
 
-    setUsuario((prevState) => ({
+    setInscripcion((prevState) => ({
       ...prevState,
       form: {
         ...prevState.form,
@@ -101,16 +129,16 @@ query GetUsers {
   const mostrarModalActualizar = (datoId) => {
     
     let userToModify;
-    arregloUsuarios.map((registro) => {
+    arregloInscripciones.map((registro) => {
       if (datoId.target.id === registro._id) {
         userToModify = registro;
       }
       return; //console.log("Mostro Modal Actualizar");
     });
 
-    // listarUsuarios(userToModify);
-    setUsuario({
-      ...usuario,
+    // listarInscripciones(userToModify);
+    setInscripcion({
+      ...inscripcion,
       form: userToModify,
     });
     setModalActualizar(true);
@@ -120,11 +148,11 @@ query GetUsers {
     return; //console.log("Mostro Modal Actualizar");
   };
   const eliminar = (datoID) => {
-    arregloUsuarios.map((registro) => {
+    arregloInscripciones.map((registro) => {
       if (datoID.target.id === registro._id) {
         let opcion = window.confirm(
-          "¿Está seguro que desea eliminar el Usuario " +
-            registro.nameUser +
+          "¿Está seguro que desea eliminar la Inscripcion de " +
+          registro.student.nameUser+" al proyecto: "+registro.project.name+
             "?"
         );
         if (opcion) {
@@ -136,9 +164,10 @@ query GetUsers {
   };
 
   const borrarCustomer = (id) => {
+    console.log(id)
     const query=`
-    mutation DeleteUser($id: ID!) {
-      deleteUser(_id: $id) {
+    mutation DeleteInscription($id: ID!) {
+      deleteInscription(_id: $id) {
         _id
       }
     }
@@ -166,10 +195,10 @@ console.log(query)
   const columns = useColumns();
 
   const [dataTabla, setDataTabla] = React.useState({
-    data: usuario.data,
+    data: inscripcion.data,
   });
 
-  var table = useTable({ columns, data: dataTabla.data }, useGlobalFilter);
+  var table = useTable({ columns, data: dataTabla.data}, useGlobalFilter);
   const {
     getTableProps,
     getTableBodyProps,
@@ -204,22 +233,30 @@ console.log(query)
           size={50}
           value={value || ""}
           onChange={handleInputChange}
-          placeholder={`${totalCarsAvailable} Usuarios disponibles...`}
+          placeholder={`${totalCarsAvailable} Inscripciones disponibles...`}
         />
       </span>
     );
   }
   //console.log("fin")
 
+const classState={editar:"text-left text-uppercase m-1 mr-5 ",
+                  eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
+  console.log("userLogged.typeUser")
+  console.log(userLogged.typeUser)
+  if(userLogged.typeUser==="Administrador"){
+    classState.editar="text-left text-uppercase m-1 mr-5"
+    classState.eliminar="text-left text-uppercase m-1 mr-5"
+  }
   return (
     <>
       <Sidebar />
       <Container>
-        <h1 className="titulos">Listado Usuarios</h1>
+        <h1 className="titulos">Listado Inscripciones</h1>
         <br />
-        <Button disabled={false} color="success" onClick={mostrarModalInsertar}>
+        {/* <Button disabled={false} color="success" onClick={mostrarModalInsertar}>
           Crear
-        </Button>
+        </Button> */}
         <br />
         <br />
         <div id="lista">
@@ -240,12 +277,12 @@ console.log(query)
                 // Recorremos las columnas que previamente definimos
                 headerGroups.map((headerGroup) => (
                   // Añadimos las propiedades al conjunto de columnas
-                  <tr {...headerGroup.getHeaderGroupProps()}>
+                  <tr className= "w-3 p-2" {...headerGroup.getHeaderGroupProps()}>
                     {
                       // Recorremos cada columna del conjunto para acceder a su información
                       headerGroup.headers.map((column) => (
                         // Añadimos las propiedades a cada celda de la cabecera
-                        <th {...column.getHeaderProps()}>
+                        <th  className= "w-3 p-2 " {...column.getHeaderProps()}>
                           {
                             // Pintamos el título de nuestra columna (propiedad "Header")
                             column.render("Header")
@@ -284,9 +321,11 @@ console.log(query)
                         })
                       }
                       <Button
-                        className="text-left text-uppercase m-1 mr-5 "
+                        className={classState.editar}
+                       
                         id={row.values._id}
                         color="primary"
+                        isVisible={true}
                         onClick={mostrarModalActualizar}
                       >
                         Editar
@@ -294,10 +333,12 @@ console.log(query)
                       {" . "}
                       {
                         <Button
-                          className="text-center text-uppercase m-1 ml-5"
+                          className={classState.eliminar}
                           id={row.values._id}
                           color="danger"
-                          onClick={eliminar}
+                          onClick={eliminar, console.log(row)}
+                          available={false}
+                          isVisible={true}
                         >
                           Eliminar
                         </Button>
@@ -308,8 +349,8 @@ console.log(query)
               }
             </tbody>
           </Table>
-          <ModalCrearUsuario
-            usuario={usuario}
+          <ModalCrearInscripcion
+            inscripcion={inscripcion}
             handleChange={handleChange}
             setModalInsertar={setModalInsertar}
             isOpen={modalInsertar}
@@ -317,8 +358,8 @@ console.log(query)
             newVal={newVal}
             uri={uri}
           />
-          <ModalEditarUsuario
-            usuario={usuario}
+          <ModalEditarInscripcion
+            inscripcion={inscripcion}
             handleChange={handleChange}
             setModalActualizar={setModalActualizar}
             isOpen={modalActualizar}
@@ -332,4 +373,4 @@ console.log(query)
   );
 };
 
-export default ListadoUsuarios;
+export default ListadoInscripciones;

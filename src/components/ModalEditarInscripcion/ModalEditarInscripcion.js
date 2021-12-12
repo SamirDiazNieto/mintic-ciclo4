@@ -1,5 +1,5 @@
 import React from 'react';
-import './ModalEditarUsuario.css';
+import './ModalEditarInscripcion.css';
 import {
   Button,
   Modal,
@@ -14,18 +14,18 @@ import { getAuth } from "firebase/auth";
 import { createApolloFetch } from 'apollo-fetch';
 
 
-const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, setNewVal, newVal,uri}) => {
+const ModalEditarInscripcion = ({inscripcion, handleChange,setModalActualizar,isOpen, setNewVal, newVal,uri}) => {
   const auth = getAuth(); 
   const [user, loading, error] = useAuthState(auth);
 
   const [errors, setErrors] = React.useState(null);
  
  
-  const estados = ["Seleccione una Opción","Pendiente","No Autorizado","Autorizado"]
+  const estados = ["Pendiente", "Aceptado", "Rechazado"]
   const roles =["Seleccione una Opción","Administrador", "Lider", "Estudiante"]
   /////////////////////////////////////////////////// PREGUNTAR
   const listarRoles = roles.map((typeUser) =>{
-    if(typeUser===usuario.form.typeUser){
+    if(typeUser===inscripcion.form.typeUser){
       return (<option name="typeUser" selected value={typeUser}>{typeUser}</option>)
     }
     else{
@@ -35,7 +35,7 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
   ///////////////////////////////////////////////////
   /////////////////////////////////////////////////// PREGUNTAR
   const listarEstados = estados.map((state) =>{
-    if(state===usuario.form.state){
+    if(state===inscripcion.form.state){
       return (<option name="state" selected value={state}>{state}</option>)
     }
     else{
@@ -47,8 +47,8 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
     setModalActualizar(false);
   };
   const editar = () => {
-    let usuarioAModificar = { ...usuario.form };
-    actualizarCustomer(usuarioAModificar);
+    let inscripcionAModificar = { ...inscripcion.form };
+    actualizarCustomer(inscripcionAModificar);
     setModalActualizar(false);
     
   };
@@ -56,10 +56,9 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
       // fetch(`${BASE_URL}${PATH_CUSTOMERS}/${customer._id}`, requestOptions)
       console.log(customer)
       const query=`
-      mutation UpdateUser($id: ID!, $nameUser: String!, $identification: String,  $state: String) {
-        updateUser( _id: $id, identification: $identification, nameUser: $nameUser,state: $state) {
-          email
-          typeUser
+      mutation UpdateInscription($id: ID!, $state: String) {
+        updateInscription(_id: $id, state: $state) {
+          _id
         }
       }
         `
@@ -68,20 +67,19 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
         const apolloFetch = createApolloFetch({ uri });
         
         console.log(uri)
-        console.log(customer.identification)
+        console.log(customer.state)
   
         apolloFetch({
           query: query, 
           variables: { 
             id: customer._id,
-            identification: customer.identification, 
-            nameUser: customer.nameUser, 
             state: customer.state, 
            }
         })
         .then(
           (result) => {
             setNewVal(newVal + 1);
+            console.log("result");
             console.log(result);
           },
           (error) => {
@@ -92,12 +90,12 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
       setModalActualizar(false)
   }
   return (
-  <Modal isOpen={isOpen}>
+  <Modal isOpen={isOpen} className=" w-auto">
         <ModalHeader>
-          <div><h3>Actualizar usuario {usuario.form.nombreUsuario}</h3></div>
+          <div><h3>Actualizar inscripcion {inscripcion.form.nombreInscripcion}</h3></div>
         </ModalHeader>
 
-        <ModalBody>
+        <ModalBody className="form-control w-auto p-2">
           {/* <FormGroup>
             <label>
               Id:
@@ -106,73 +104,44 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
               className="form-control"
               readOnly
               type="text"
-              value={usuario.form.id}
+              value={inscripcion.form.id}
             />
           </FormGroup> */}
           <FormGroup>
             <label>
-            Identificación:
+              Proyecto:
             </label>
             <input
-              className="form-control"
-              name="identification"
+              className="form-control w-auto p-2"
+              readOnly
               type="text"
               onChange={handleChange}
-              value={usuario.form.identification}
+              value={inscripcion.form.project.name}
             />
           </FormGroup>
           <FormGroup>
             <label>
-              Nombres:
+              Estudiante:
             </label>
             <input
-              className="form-control"
+              readOnly
+              className="form-control w-auto p-2"
               name="nameUser"
               type="text"
               onChange={handleChange}
-              value={usuario.form.nameUser}
+              value={inscripcion.form.student.nameUser}
             />
           </FormGroup>
-          {/* <FormGroup>
-            <label>
-            Correo:
-            </label>
-            <input
-              className="form-control"
-              name="email"
-              type="text"
-              onChange={handleChange}
-              value={usuario.form.email}
-            />
-          </FormGroup> */}
-           {/* <FormGroup>
-            <label>
-            Contraseña:
-            </label>
-            <input
-              className="form-control"
-              name="password"
-              // type="password"
-              type="text"
-              onChange={handleChange}
-              value={usuario.form.password}
-            />
-          </FormGroup>  */}
-          {/* <FormGroup>
-          <label>
-          Tipo de Usuario:
-            <Input type="select" name ="typeUser"  onChange={handleChange}>
-              {listarRoles}
-            </Input>
-          </label>
-          
-        </FormGroup> */}
+         
+           
 
         <FormGroup>
           <label>
             Estado:
           </label>
-          <Input type="select" name ="state"  onChange={handleChange}>
+          <Input 
+          className="form-control w-auto p-2"
+          type="select" name ="state"  onChange={handleChange}>
               {listarEstados}
             </Input>
           
@@ -198,4 +167,4 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
   );
 }
 
-export default ModalEditarUsuario;
+export default ModalEditarInscripcion;

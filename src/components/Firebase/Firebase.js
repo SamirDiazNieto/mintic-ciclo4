@@ -19,6 +19,11 @@ provider.setCustomParameters({
   'login_hint': 'user@example.com'
 });
 
+let nameRegister =""
+let documentoRegister=""
+let tipoUsuarioRegister=""
+let stateRegister=""
+let idRegister=""
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const auth = getAuth();
@@ -84,11 +89,45 @@ const signInEmailAndPassword = (email, password,setLogin,setHasError,setErrors) 
 const logout = () => {
   auth.signOut();
 };
+const userRegister=(nameRegisterFire, documentoRegisterFire, tipoUsuarioRegisterFire,stateRegisterFire)=>{
+
+   localStorage.setItem('nameRegister', nameRegisterFire);
+   localStorage.setItem('documentoRegister', documentoRegisterFire);
+   localStorage.setItem('tipoUsuarioRegister', tipoUsuarioRegisterFire);
+   localStorage.setItem('stateRegister', stateRegisterFire);
+   
+
+}
+const userRegisterReturn=()=>{
+  return (
+    {"nameUser":localStorage.getItem("nameRegister"),
+    "identification":localStorage.getItem("documentoRegister"),
+    "typeUser":localStorage.getItem("tipoUsuarioRegister"),
+    "state":localStorage.getItem("stateRegister")
+  }
+        )
+        
+}
+const IdRegister=(idRegisterFire)=>{
+
+  localStorage.setItem('_id', idRegisterFire);
+}
+const IdRegisterReturn=()=>{
+  return (
+    {"_id":localStorage.getItem("_id")}
+        )
+        
+}
+
 export {
   auth,
   registerWithEmailAndPassword,
   resetPassword,
   signInWithGoogle,
   logout,
-  signInEmailAndPassword
+  signInEmailAndPassword,
+  userRegister,
+  userRegisterReturn,
+  IdRegister,
+  IdRegisterReturn
 };
