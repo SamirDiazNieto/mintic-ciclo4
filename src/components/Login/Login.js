@@ -21,7 +21,6 @@ import { createApolloFetch } from "apollo-fetch";
 
 
  const Login = () => {
-  localStorage.setItem('estado', 'Pendiente');
   const uri = "http://localhost:5010/graphql";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

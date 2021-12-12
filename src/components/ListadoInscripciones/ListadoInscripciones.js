@@ -19,8 +19,7 @@ const data = [];
 const uri = "http://localhost:5010/graphql";
 
 const ListadoInscripciones = () => {
-  var cat = localStorage.getItem("state")
-  console.log(cat)
+  
   let userLogged = userRegisterReturn();
   console.log("userLogged")
   console.log(userLogged)

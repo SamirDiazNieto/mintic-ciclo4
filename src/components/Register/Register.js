@@ -168,7 +168,7 @@ function capturaVariables(valor){
    }
  }
  function Registrar() {
-  
+  debugger;
   let correo = ValidarCorreo();
   let pass = ValidaPass();
   let confirma = ValidaConfirmar();
@@ -182,6 +182,8 @@ function capturaVariables(valor){
   if (correo && pass && confirma && identifica && tipoUser) {
    
    registerWithEmailAndPassword(emailRegister, passwordRegister);
+   debugger
+   console.log(nameRegister, documentoRegister, tipoUsuarioRegister, "Pendiente")
    userRegister(nameRegister, documentoRegister, tipoUsuarioRegister, "Pendiente");
    console.log("Se registro correctamente");
      contador = 1;
