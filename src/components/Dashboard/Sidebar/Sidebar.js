@@ -47,7 +47,7 @@ const SidebarWrap = styled.div`
 `;
 
 const Sidebar = (estado) => {
-	localStorage.setItem("state", "Activo")
+	
 	const sideBarD=SidebarData()
 	const [sidebar, setSidebar] = useState(false);
 	const showSidebar = () => setSidebar(!sidebar);
@@ -60,6 +60,7 @@ const Sidebar = (estado) => {
 			localStorage.removeItem('documentoRegister');
 			localStorage.removeItem('tipoUsuarioRegister');
 			localStorage.removeItem('stateRegister');
+			localStorage.removeItem('_id');
 		  console.log("loggedout");
 		  history.replace("/");
 

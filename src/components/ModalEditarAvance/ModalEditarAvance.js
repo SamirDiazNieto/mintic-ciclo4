@@ -16,20 +16,18 @@ const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, s
 	const actualizarAvance = (miAvance) => {
 		console.log(miAvance);
 		const query = `
-        mutation UpdateAdvance($id: ID!, $description: String) {
-            updateAdvance(_id: $id, description: $description) {
+        mutation UpdateAdvance($id: ID!, $description: String, $comments: String) {
+            updateAdvance(_id: $id, description: $description, comments: $comments) {
                 _id
                 project {
                     _id
-                    name
                 }
                 student {
                  _id
-                 nameUser
                 }
                 date
                 description
-                comments
+				comments
             }
         }
         `;
@@ -37,11 +35,16 @@ const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, s
 		const apolloFetch = createApolloFetch({ uri });
 		console.log(uri);
 
+		console.log(avance);
+		console.log(avance.form._id, 'id del avance');
+		console.log(avance.form.description, 'description del avance');
+
 		apolloFetch({
 			query: query,
 			variables: {
-				id: avance._id,
-				description: avance.description,
+				id: avance.form._id,
+				description: avance.form.description,
+				comments: avance.form.comments,
 			},
 		})
 			.then(
@@ -80,6 +83,10 @@ const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, s
 				<FormGroup>
 					<label>Description:</label>
 					<input className='form-control' name='description' type='text' onChange={handleChange} value={avance.form.description} />
+				</FormGroup>
+				<FormGroup>
+					<label>Comentario:</label>
+					<input className='form-control' name='comments' type='text' onChange={handleChange} value={avance.form.comments} />
 				</FormGroup>
 			</ModalBody>
 			<ModalFooter>

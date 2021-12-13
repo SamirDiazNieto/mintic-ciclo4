@@ -36,10 +36,10 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
   /////////////////////////////////////////////////// PREGUNTAR
   const listarEstados = estados.map((state) =>{
     if(state===usuario.form.state){
-      return (<option name="estado" selected value={state}>{state}</option>)
+      return (<option name="state" selected value={state}>{state}</option>)
     }
     else{
-      return (<option name="estado" value={state}>{state}</option>)
+      return (<option name="state" value={state}>{state}</option>)
     } 
   });
   ///////////////////////////////////////////////////
@@ -172,7 +172,7 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
           <label>
             Estado:
           </label>
-          <Input type="select" name ="estado"  onChange={handleChange}>
+          <Input type="select" name ="state"  onChange={handleChange}>
               {listarEstados}
             </Input>
           

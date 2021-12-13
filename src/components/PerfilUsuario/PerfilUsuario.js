@@ -100,6 +100,7 @@ const PerfilUsuario = () => {
           (result) => {
             console.log(result);
             localStorage.setItem('documentoRegister', customer.identification);
+            localStorage.setItem('nameRegister', customer.nameUser);
           },
           (error) => {
             console.log(error);
