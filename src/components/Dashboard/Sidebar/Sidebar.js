@@ -60,6 +60,7 @@ const Sidebar = (estado) => {
 			localStorage.removeItem('documentoRegister');
 			localStorage.removeItem('tipoUsuarioRegister');
 			localStorage.removeItem('stateRegister');
+			localStorage.removeItem('_id');
 		  console.log("loggedout");
 		  history.replace("/");
 		  Swal.fire({

@@ -24,7 +24,7 @@ let sidebarDATA = [
   },
   {
     titulo: "Avances",
-    ruta: "/dashboard",
+    ruta: "/dashboard/avances",
     icono: <BsIcons.BsReceiptCutoff />,
   },
   {

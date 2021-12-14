@@ -20,6 +20,7 @@ const data = [];
 const uri = "http://localhost:5010/graphql";
 
 const ListadoInscripciones = () => {
+  
   let userLogged = userRegisterReturn();
   console.log("userLogged")
   console.log(userLogged)

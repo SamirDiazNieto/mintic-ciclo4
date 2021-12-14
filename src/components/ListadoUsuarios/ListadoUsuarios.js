@@ -1,12 +1,12 @@
-import React from "react";
-import "./ListadoUsuarios.css";
-import { Table, Button, Container } from "reactstrap";
-import ModalCrearUsuario from "../ModalCrearUsuario/ModalCrearUsuario";
-import ModalEditarUsuario from "../ModalEditarUsuario/ModalEditarUsuario";
-import Sidebar from "../Dashboard/Sidebar/Sidebar";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth } from "firebase/auth";
-import { useHistory } from "react-router";
+import React from 'react';
+import './ListadoUsuarios.css';
+import { Table, Button, Container } from 'reactstrap';
+import ModalCrearUsuario from '../ModalCrearUsuario/ModalCrearUsuario';
+import ModalEditarUsuario from '../ModalEditarUsuario/ModalEditarUsuario';
+import Sidebar from '../Dashboard/Sidebar/Sidebar';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
+import { useHistory } from 'react-router';
 
 import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsUsuario";
@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 
 const data = [];
 
-const uri = "http://localhost:5010/graphql";
+const uri = 'http://localhost:5010/graphql';
 
 const ListadoUsuarios = () => {
   const auth = getAuth();
@@ -38,15 +38,15 @@ const ListadoUsuarios = () => {
     },
   });
 
-  let arregloUsuarios = usuario.data;
+	let arregloUsuarios = usuario.data;
 
-  React.useEffect(() => {
-    if (loading) return;
-    if (!user) return history.replace("/");
-  }, [user, loading]);
+	React.useEffect(() => {
+		if (loading) return;
+		if (!user) return history.replace('/');
+	}, [user, loading]);
 
-  React.useEffect(() => {
-    const query = `
+	React.useEffect(() => {
+		const query = `
 query GetUsers {
   getUsers {
     _id
@@ -59,44 +59,52 @@ query GetUsers {
 }
 
 `;
-    const apolloFetch = createApolloFetch({ uri });
+		const apolloFetch = createApolloFetch({ uri });
 
-    apolloFetch({ query }).then(
-      (result) => {
-        setUsuario({
-          ...usuario,
-          data: result.data.getUsers,
-        });
+		apolloFetch({ query }).then(
+			(result) => {
+				setUsuario({
+					...usuario,
+					data: result.data.getUsers,
+				});
 
-        setDataTabla({
-          ...dataTabla,
-          data: result.data.getUsers,
-        });
-      },
-      (error) => {
-        //setIsLoaded(true);
-        console.log(error);
-        setErrors(error);
-      }
-      )
+				setDataTabla({
+					...dataTabla,
+					data: result.data.getUsers,
+				});
+			},
+			(error) => {
+				//setIsLoaded(true);
+				console.log(error);
+				setErrors(error);
+			}
+		);
+	}, [newVal]);
 
+	const handleChange = (datosImput) => {
+		setDataTabla((prevState) => ({
+			...prevState,
+			data: usuario.data,
+		}));
 
-  }, [newVal]);
+		setUsuario((prevState) => ({
+			...prevState,
+			form: {
+				...prevState.form,
+				[datosImput.target.name]: datosImput.target.value,
+			},
+		}));
+	};
 
-  const handleChange = (datosImput) => {
-    setDataTabla((prevState) => ({
-      ...prevState,
-      data: usuario.data,
-    }));
-
-    setUsuario((prevState) => ({
-      ...prevState,
-      form: {
-        ...prevState.form,
-        [datosImput.target.name]: datosImput.target.value,
-      },
-    }));
-  };
+	const mostrarModalActualizar = (datoId) => {
+		let userToModify;
+		arregloUsuarios.map((registro) => {
+			if (datoId.target.id === registro._id) {
+				userToModify = registro;
+			}
+			return; //console.log("Mostro Modal Actualizar");
+		});
+	};
 
   const mostrarModalActualizar = (datoId) => {
     
@@ -165,82 +173,68 @@ query GetUsers {
     
   };
 
-  const borrarCustomer = (id) => {
-    const query=`
+	const borrarCustomer = (id) => {
+		const query = `
     mutation DeleteUser($id: ID!) {
       deleteUser(_id: $id) {
         _id
       }
     }
-`
-console.log(query)
+`;
+		console.log(query);
 
-    const apolloFetch = createApolloFetch({ uri });
+		const apolloFetch = createApolloFetch({ uri });
+
+		apolloFetch({
+			query: query,
+			variables: { id: id },
+		}).then(
+			(result) => {
+				setNewVal(newVal + 1);
+			},
+			(error) => {
+				console.log(error);
+				setErrors(error);
+			}
+		);
+	};
+
+	const columns = useColumns();
 
 
-    apolloFetch({
-      query: query, 
-      variables: { id:id }
-    })
-    .then(
-      (result) => {
-        setNewVal(newVal + 1);
-      },
-      (error) => {
-        console.log(error);
-        setErrors(error);
-      }
-    );
-  };
 
+	var table = useTable({ columns, data: dataTabla.data }, useGlobalFilter);
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		rows,
+		prepareRow,
+		preGlobalFilteredRows,
+		setGlobalFilter,
+		state: { globalFilter },
+	} = table;
+	function CarsFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
+		const totalCarsAvailable = preGlobalFilteredRows.length;
+		const [value, setValue] = React.useState(globalFilter);
 
-  const columns = useColumns();
+		const onFilterChange = useAsyncDebounce((value) => {
+			setGlobalFilter(value || undefined);
+		}, 200);
 
-  const [dataTabla, setDataTabla] = React.useState({
-    data: usuario.data,
-  });
+		const handleInputChange = (e) => {
+			setValue(e.target.value);
+			onFilterChange(e.target.value);
+		};
 
-  var table = useTable({ columns, data: dataTabla.data }, useGlobalFilter);
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    state: { globalFilter },
-  } = table;
-  function CarsFilter({
-    preGlobalFilteredRows,
-    globalFilter,
-    setGlobalFilter,
-  }) {
-    const totalCarsAvailable = preGlobalFilteredRows.length;
-    const [value, setValue] = React.useState(globalFilter);
-
-    const onFilterChange = useAsyncDebounce((value) => {
-      setGlobalFilter(value || undefined);
-    }, 200);
-
-    const handleInputChange = (e) => {
-      setValue(e.target.value);
-      onFilterChange(e.target.value);
-    };
-
-    return (
-      <span className="cars-filter">
-        Buscar Producto:
-        <input
-          size={50}
-          value={value || ""}
-          onChange={handleInputChange}
-          placeholder={`${totalCarsAvailable} Usuarios disponibles...`}
-        />
-      </span>
-    );
-  }
-  //console.log("fin")
+		return (
+			<span className='cars-filter'>
+				Buscar Producto:
+				<input size={50} value={value || ''} onChange={handleInputChange} placeholder={`${totalCarsAvailable} Usuarios disponibles...`} />
+			</span>
+		);
+	}
+	//console.log("fin")
 
   return (
     <>
@@ -270,34 +264,34 @@ console.log(query)
                 </th>
               </tr>
 
-              {
-                // Recorremos las columnas que previamente definimos
-                headerGroups.map((headerGroup) => (
-                  // Añadimos las propiedades al conjunto de columnas
-                  <tr {...headerGroup.getHeaderGroupProps()}>
-                    {
-                      // Recorremos cada columna del conjunto para acceder a su información
-                      headerGroup.headers.map((column) => (
-                        // Añadimos las propiedades a cada celda de la cabecera
-                        <th {...column.getHeaderProps()}>
-                          {
-                            // Pintamos el título de nuestra columna (propiedad "Header")
-                            column.render("Header")
-                          }
-                        </th>
-                      ))
-                    }
-                    <th>Opciones</th>
-                  </tr>
-                ))
-              }
-            </thead>
+							{
+								// Recorremos las columnas que previamente definimos
+								headerGroups.map((headerGroup) => (
+									// Añadimos las propiedades al conjunto de columnas
+									<tr {...headerGroup.getHeaderGroupProps()}>
+										{
+											// Recorremos cada columna del conjunto para acceder a su información
+											headerGroup.headers.map((column) => (
+												// Añadimos las propiedades a cada celda de la cabecera
+												<th {...column.getHeaderProps()}>
+													{
+														// Pintamos el título de nuestra columna (propiedad "Header")
+														column.render('Header')
+													}
+												</th>
+											))
+										}
+										<th>Opciones</th>
+									</tr>
+								))
+							}
+						</thead>
 
-            <tbody {...getTableBodyProps()}>
-              {
-                // Recorremos las filas
-                rows.map((row) => {
-                  // Llamamos a la función que prepara la fila previo renderizado
+						<tbody {...getTableBodyProps()}>
+							{
+								// Recorremos las filas
+								rows.map((row) => {
+									// Llamamos a la función que prepara la fila previo renderizado
 
                   prepareRow(row);
                   return (
