@@ -12,6 +12,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { createApolloFetch } from 'apollo-fetch';
+import Swal from 'sweetalert2';
 
 
 const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, setNewVal, newVal,uri}) => {
@@ -45,15 +46,28 @@ const ModalEditarUsuario = ({usuario, handleChange,setModalActualizar,isOpen, se
   ///////////////////////////////////////////////////
   const cerrarModalActualizar = () => {
     setModalActualizar(false);
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'Usuario no modificado',
+      showConfirmButton: false,
+      timer: 1500
+    })
   };
   const editar = () => {
     let usuarioAModificar = { ...usuario.form };
     actualizarCustomer(usuarioAModificar);
     setModalActualizar(false);
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Usuario modificado con exito',
+      showConfirmButton: false,
+      timer: 1500
+    })
     
   };
   const actualizarCustomer = (customer) => {
-      // fetch(`${BASE_URL}${PATH_CUSTOMERS}/${customer._id}`, requestOptions)
       console.log(customer)
       const query=`
       mutation UpdateUser($id: ID!, $nameUser: String!, $identification: String,  $state: String) {

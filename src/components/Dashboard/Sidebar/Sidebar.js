@@ -9,6 +9,7 @@ import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 
 const Nav = styled.div`
@@ -47,7 +48,10 @@ const SidebarWrap = styled.div`
 `;
 
 const Sidebar = (estado) => {
+<<<<<<< HEAD
 	
+=======
+>>>>>>> SamirDiaz
 	const sideBarD=SidebarData()
 	const [sidebar, setSidebar] = useState(false);
 	const showSidebar = () => setSidebar(!sidebar);
@@ -63,6 +67,13 @@ const Sidebar = (estado) => {
 			localStorage.removeItem('_id');
 		  console.log("loggedout");
 		  history.replace("/");
+		  Swal.fire({
+			position: 'center',
+			icon: 'info',
+			title: 'Sesión cerrada',
+			showConfirmButton: false,
+			timer: 1500
+		  })
 
 		}).catch((error) => {
 
