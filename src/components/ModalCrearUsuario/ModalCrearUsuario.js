@@ -11,6 +11,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { createApolloFetch } from "apollo-fetch";
+import Swal from 'sweetalert2';
 
 
 const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, setNewVal, newVal, uri }) => {
@@ -21,6 +22,13 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
 
   const cerrarModalInsertar = () => {
     setModalInsertar(false);
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'Usuario no creado',
+      showConfirmButton: false,
+      timer: 1500
+    })
   };
   const insertar = () => {
     let usuarioACrear = { ...usuario.form };
@@ -57,6 +65,13 @@ const ModalCrearUsuario = ({ usuario, handleChange, setModalInsertar, isOpen, se
       }
     ).catch(error => console.error('Error:', error))
     setModalInsertar(false)
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Usuario creado con exito',
+      showConfirmButton: false,
+      timer: 1500
+    })
   }
 
   return (

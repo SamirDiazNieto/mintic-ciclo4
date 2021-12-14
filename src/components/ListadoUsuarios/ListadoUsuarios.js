@@ -11,6 +11,7 @@ import { useHistory } from "react-router";
 import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsUsuario";
 import { createApolloFetch } from "apollo-fetch";
+import Swal from "sweetalert2";
 
 const data = [];
 
@@ -121,17 +122,47 @@ query GetUsers {
   const eliminar = (datoID) => {
     arregloUsuarios.map((registro) => {
       if (datoID.target.id === registro._id) {
-        let opcion = window.confirm(
-          "¿Está seguro que desea eliminar el Usuario " +
-            registro.nameUser +
-            "?"
-        );
-        if (opcion) {
-          borrarCustomer(registro._id);
-        }
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
+        
+        swalWithBootstrapButtons.fire({
+          title: "Esta acción no se puede reversar!",
+          text: `¿Estas seguro de eliminar el usuario ${registro.nameUser}?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar',
+          // reverseButtons: true
+          buttonsStyling:'margin: .5rem '
+        }).then((result) => {
+          if (result.isConfirmed) {
+            borrarCustomer(registro._id);
+            swalWithBootstrapButtons.fire(
+              'Borrada!',
+              'El Usuario ha sido borrado',
+              'success'
+            )
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelado',
+              'El usuario no fue borrado :)',
+              'error'
+            )
+          }
+        })
+      
       }
       return; //console.log("Elimino Correctamente");
     });
+    
   };
 
   const borrarCustomer = (id) => {
@@ -161,6 +192,7 @@ console.log(query)
       }
     );
   };
+
 
   const columns = useColumns();
 
@@ -226,6 +258,9 @@ console.log(query)
           <Table onCompositionUpdate={handleChange} {...getTableProps()}>
             <thead className="encabezados">
               <tr>
+                <th>
+                  Tabla
+                </th>
                 <th colSpan={4}>
                   <CarsFilter
                     preGlobalFilteredRows={preGlobalFilteredRows}
@@ -290,7 +325,6 @@ console.log(query)
                       >
                         Editar
                       </Button>
-                      {" . "}
                       {
                         <Button
                           className="text-center text-uppercase m-1 ml-5"
