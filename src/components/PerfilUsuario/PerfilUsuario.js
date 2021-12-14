@@ -9,6 +9,7 @@ import './PerfilUsuario.css';
 import { userRegisterReturn } from "../Firebase/Firebase";
 import Foto from "../../assets/foto-perfil.png"
 import { createApolloFetch } from "apollo-fetch";
+import Swal from "sweetalert2";
 
 
 
@@ -67,7 +68,14 @@ const PerfilUsuario = () => {
 
   const editar = () => {
     let usuarioAModificar = { ...usuario.form };
-    actualizarCustomer(usuarioAModificar);
+    actualizarCustomer(usuarioAModificar)
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Usuario modificado con exito',
+      showConfirmButton: false,
+      timer: 1500
+    })
     
   };
   const actualizarCustomer = (customer) => {
@@ -100,6 +108,7 @@ const PerfilUsuario = () => {
           (result) => {
             console.log(result);
             localStorage.setItem('documentoRegister', customer.identification);
+            localStorage.setItem('nameRegister', customer.nameUser);
           },
           (error) => {
             console.log(error);

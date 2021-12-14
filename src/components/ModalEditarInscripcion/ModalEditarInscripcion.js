@@ -12,6 +12,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { createApolloFetch } from 'apollo-fetch';
+import Swal from 'sweetalert2';
 
 
 const ModalEditarInscripcion = ({inscripcion, handleChange,setModalActualizar,isOpen, setNewVal, newVal,uri}) => {
@@ -45,6 +46,13 @@ const ModalEditarInscripcion = ({inscripcion, handleChange,setModalActualizar,is
   ///////////////////////////////////////////////////
   const cerrarModalActualizar = () => {
     setModalActualizar(false);
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'Inscipción no modificada',
+      showConfirmButton: false,
+      timer: 1500
+    })
   };
   const editar = () => {
     let inscripcionAModificar = { ...inscripcion.form };
@@ -53,7 +61,6 @@ const ModalEditarInscripcion = ({inscripcion, handleChange,setModalActualizar,is
     
   };
   const actualizarCustomer = (customer) => {
-      // fetch(`${BASE_URL}${PATH_CUSTOMERS}/${customer._id}`, requestOptions)
       console.log(customer)
       const query=`
       mutation UpdateInscription($id: ID!, $state: String) {
@@ -88,6 +95,13 @@ const ModalEditarInscripcion = ({inscripcion, handleChange,setModalActualizar,is
         }
       ).catch(error => console.error('Error:', error))
       setModalActualizar(false)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Inscipción modificada con exito',
+        showConfirmButton: false,
+        timer: 1500
+      })
   }
   return (
   <Modal isOpen={isOpen} className=" w-auto">

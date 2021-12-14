@@ -11,6 +11,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { createApolloFetch } from "apollo-fetch";
+import Swal from 'sweetalert2';
 
 
 const ModalCrearInscripcion = ({ inscripcion, handleChange, setModalInsertar, isOpen, setNewVal, newVal,uri }) => {
@@ -21,6 +22,13 @@ const ModalCrearInscripcion = ({ inscripcion, handleChange, setModalInsertar, is
 
   const cerrarModalInsertar = () => {
     setModalInsertar(false);
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'Inscipción no creado',
+      showConfirmButton: false,
+      timer: 1500
+    })
   };
   const insertar = () => {
     let inscripcionACrear = { ...inscripcion.form };
@@ -58,6 +66,13 @@ const ModalCrearInscripcion = ({ inscripcion, handleChange, setModalInsertar, is
       }
     ).catch(error => console.error('Error:', error))
     setModalInsertar(false)
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Inscipción creado con exito',
+      showConfirmButton: false,
+      timer: 1500
+    })
   }
 
   return (

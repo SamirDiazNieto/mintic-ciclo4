@@ -302,8 +302,12 @@ table tr td:nth-child(1), table th:nth-child(1) {
 .btn-primary{
   background-color: #0d6efd !important; 
   max-width: 50%;
+  padding: .5rem !important;
 }
 .btn-danger{
   background-color: #bb2d3b !important; 
   max-width: 50%;
+  padding: .5rem !important;
 }
+
+

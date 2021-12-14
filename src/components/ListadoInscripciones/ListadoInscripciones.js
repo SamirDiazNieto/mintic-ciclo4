@@ -13,14 +13,13 @@ import useColumns from "../hooks/useColumnsInscripcion";
 import { createApolloFetch } from "apollo-fetch";
 import DateFromTime from "es-abstract/5/DateFromTime";
 import { userRegisterReturn } from "../Firebase/Firebase";
+import Swal from "sweetalert2";
 
 const data = [];
 
 const uri = "http://localhost:5010/graphql";
 
 const ListadoInscripciones = () => {
-  var cat = localStorage.getItem("state")
-  console.log(cat)
   let userLogged = userRegisterReturn();
   console.log("userLogged")
   console.log(userLogged)
@@ -151,14 +150,43 @@ const ListadoInscripciones = () => {
   const eliminar = (datoID) => {
     arregloInscripciones.map((registro) => {
       if (datoID.target.id === registro._id) {
-        let opcion = window.confirm(
-          "¿Está seguro que desea eliminar la Inscripcion de " +
-          registro.student.nameUser+" al proyecto: "+registro.project.name+
-            "?"
-        );
-        if (opcion) {
-          borrarCustomer(registro._id);
-        }
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
+        
+        swalWithBootstrapButtons.fire({
+          title: "Esta acción no se puede reversar!",
+          text: `¿Estas seguro de eliminar la inscripción del proyecto ${registro.project.name}?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar',
+          // reverseButtons: true
+          buttonsStyling:'margin: .5rem '
+        }).then((result) => {
+          if (result.isConfirmed) {
+            borrarCustomer(registro._id);
+            swalWithBootstrapButtons.fire(
+              'Borrada!',
+              'La inscipción ha sido borrada',
+              'success'
+            )
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelado',
+              'La inscipción no fue borrada :)',
+              'error'
+            )
+          }
+        })
+      
       }
       return; //console.log("Elimino Correctamente");
     });
@@ -265,6 +293,9 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 ",
           <Table onCompositionUpdate={handleChange} {...getTableProps()}>
             <thead className="encabezados">
               <tr>
+              <th>
+                  Tabla
+                </th>
                 <th colSpan={4}>
                   <CarsFilter
                     preGlobalFilteredRows={preGlobalFilteredRows}
@@ -337,7 +368,7 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 ",
                           className={classState.eliminar}
                           id={row.values._id}
                           color="danger"
-                          onClick={eliminar, console.log(row)}
+                          onClick={eliminar}
                           available={false}
                           isVisible={true}
                         >
