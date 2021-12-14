@@ -11,24 +11,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import PerfilUsuario from './components/PerfilUsuario/PerfilUsuario';
 
-//////////////////// APOLLO //////////////////// 
-import {ApolloProvider} from 'react-apollo';
-import {ApolloClient} from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-
-
-const httpLink ={
-	uri:'http://localhost:5010/graphql'
-
-};
-const client =new ApolloClient ({ 
-	link: new HttpLink(httpLink), 
-	cache: new InMemoryCache()    
-});
-//////////////////// APOLLO //////////////////// 
-
-
 ;
 export function capturaCampos() {
 	const div_register = document.getElementById('div-trasera-register');
@@ -47,7 +29,7 @@ export function capturaCampos() {
 }
 
 ReactDOM.render(  
-	<ApolloProvider client={client}> 
+
 	<React.StrictMode>
 		<BrowserRouter>
 			<Switch>
@@ -61,7 +43,6 @@ ReactDOM.render(
 				<Route exact component={App} />
 			</Switch>
 		</BrowserRouter>
-	</React.StrictMode>
-	</ApolloProvider>,
+	</React.StrictMode>,
 	document.getElementById('root')
 );

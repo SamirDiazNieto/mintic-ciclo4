@@ -19,9 +19,11 @@ import {
 } from "../Firebase/Firebase";
 import { createApolloFetch } from "apollo-fetch";
 
-
  const Login = () => {
-  const uri = "http://localhost:5010/graphql";
+  const uri = process.env.URL_PATH;
+  console.log(uri)
+  console.log("uri++++++++++++++++++")
+  console.log(uri)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userLogin, loading] = useAuthState(auth);
@@ -171,7 +173,7 @@ debugger;
         </Alert>
       }
       <img className="logo" src={Logo} alt="" />
-          <h2>Inicia Sesión</h2>
+          <h2>Inicia Sesión--</h2>
           <input
             id="login-correo"
             type="text"
