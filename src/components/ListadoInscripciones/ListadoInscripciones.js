@@ -17,7 +17,7 @@ import Swal from "sweetalert2";
 
 const data = [];
 
-const uri = "http://localhost:5010/graphql";
+const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoInscripciones = () => {
   

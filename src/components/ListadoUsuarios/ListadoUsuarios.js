@@ -12,11 +12,12 @@ import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsUsuario";
 import { createApolloFetch } from "apollo-fetch";
 import Swal from "sweetalert2";
-
+import dotenv from'dotenv'
 const data = [];
 
-const uri = "http://localhost:5010/graphql";
-// const prueba = process.env.path
+dotenv.config()
+const uri = process.env.REACT_APP_API_BASE_URL;
+
 const ListadoUsuarios = () => {
   const auth = getAuth();
   const [modalActualizar, setModalActualizar] = React.useState(false);
