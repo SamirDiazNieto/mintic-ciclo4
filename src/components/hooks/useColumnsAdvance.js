@@ -13,7 +13,7 @@ export default function useColumns() {
 			},
 			{
 				Header: 'Estudiante',
-				accessor: 'student._id',
+				accessor: 'student.nameUser',
 			},
 			{
 				Header: 'Fecha',
