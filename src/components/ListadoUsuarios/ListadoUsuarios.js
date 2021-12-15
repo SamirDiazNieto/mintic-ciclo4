@@ -12,10 +12,11 @@ import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsUsuario";
 import { createApolloFetch } from "apollo-fetch";
 import Swal from "sweetalert2";
-
+import dotenv from'dotenv'
 const data = [];
 
-const uri = "http://3.13.152.194:5010/graphql";
+dotenv.config()
+const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoUsuarios = () => {
   const auth = getAuth();
@@ -57,7 +58,6 @@ query GetUsers {
     state
   }
 }
-
 `;
     const apolloFetch = createApolloFetch({ uri });
 
@@ -143,7 +143,7 @@ query GetUsers {
           if (result.isConfirmed) {
             borrarCustomer(registro._id);
             swalWithBootstrapButtons.fire(
-              'Borrada!',
+              'Borrado!',
               'El Usuario ha sido borrado',
               'success'
             )

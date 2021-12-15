@@ -17,9 +17,10 @@ import Swal from "sweetalert2";
 
 const data = [];
 
-const uri = "http://3.13.152.194:5010/graphql";
+const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoInscripciones = () => {
+  
   let userLogged = userRegisterReturn();
   console.log("userLogged")
   console.log(userLogged)
@@ -171,7 +172,7 @@ const ListadoInscripciones = () => {
           if (result.isConfirmed) {
             borrarCustomer(registro._id);
             swalWithBootstrapButtons.fire(
-              'Borrada!',
+              'Borrado!',
               'La inscipción ha sido borrada',
               'success'
             )
@@ -362,7 +363,6 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 ",
                       >
                         Editar
                       </Button>
-                      {" . "}
                       {
                         <Button
                           className={classState.eliminar}

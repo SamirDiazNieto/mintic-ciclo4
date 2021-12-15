@@ -19,11 +19,6 @@ provider.setCustomParameters({
   'login_hint': 'user@example.com'
 });
 
-let nameRegister =""
-let documentoRegister=""
-let tipoUsuarioRegister=""
-let stateRegister=""
-let idRegister=""
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const auth = getAuth();
