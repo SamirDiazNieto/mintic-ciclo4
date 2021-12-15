@@ -48,10 +48,6 @@ const SidebarWrap = styled.div`
 `;
 
 const Sidebar = (estado) => {
-<<<<<<< HEAD
-	
-=======
->>>>>>> SamirDiaz
 	const sideBarD=SidebarData()
 	const [sidebar, setSidebar] = useState(false);
 	const showSidebar = () => setSidebar(!sidebar);

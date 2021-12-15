@@ -20,7 +20,7 @@ import {
 import { createApolloFetch } from "apollo-fetch";
 
  const Login = () => {
-  const uri = process.env.URL_PATH;
+  const uri = "http://3.13.152.194:5010/graphql";
   console.log(uri)
   console.log("uri++++++++++++++++++")
   console.log(uri)

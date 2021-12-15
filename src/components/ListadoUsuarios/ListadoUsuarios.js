@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 
 const data = [];
 
-const uri = "http://localhost:5010/graphql";
+const uri = "http://3.13.152.194:5010/graphql";
 
 const ListadoUsuarios = () => {
   const auth = getAuth();

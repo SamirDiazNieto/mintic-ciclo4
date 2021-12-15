@@ -130,12 +130,12 @@ const ModalEditarInscripcion = ({inscripcion, handleChange,setModalActualizar,is
               readOnly
               type="text"
               onChange={handleChange}
-              value={inscripcion.form.project.name}
+              value={(inscripcion.form.project.name)? inscripcion.form.project.name:" Sin Usuario" }
             />
           </FormGroup>
           <FormGroup>
             <label>
-              Estudiante:
+              Estudiante:{inscripcion.form.student.nameUser }.
             </label>
             <input
               readOnly
@@ -143,7 +143,7 @@ const ModalEditarInscripcion = ({inscripcion, handleChange,setModalActualizar,is
               name="nameUser"
               type="text"
               onChange={handleChange}
-              value={inscripcion.form.student.nameUser}
+              value={ (inscripcion.form.student.nameUser )? inscripcion.form.student.nameUser:" Sin Usuario" }
             />
           </FormGroup>
          
