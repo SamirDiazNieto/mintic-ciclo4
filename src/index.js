@@ -48,8 +48,6 @@ ReactDOM.render(
 				<Switch>
 					<Route exact path='/' component={App} />
 					<Route exact path='/dashboard' component={Dashboard} />
-					<Route exact path='/dashboard/lista-productos' component={ListadoProductos} />
-					<Route exact path='/dashboard/lista-ventas' component={VistaVenta} />
 					<Route exact path='/dashboard/lista-usuarios' component={ListadoUsuarios} />
 					<Route exact path='/dashboard/lista-Inscripciones' component={ListadoInscripciones} />
 					<Route exact path='/dashboard/actualizar-datos' component={PerfilUsuario} />

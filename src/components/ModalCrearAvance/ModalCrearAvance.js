@@ -1,12 +1,20 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter } from 'reactstrap';
 import { createApolloFetch } from 'apollo-fetch';
+import Swal from 'sweetalert2';
 
 const ModalCrearAvance = ({ avance, handleChange, setModalInsertar, isOpen, setNewVal, newVal, uri }) => {
 	const [errors, setErrors] = React.useState(null);
 
 	const cerrarModalInsertar = () => {
 		setModalInsertar(false);
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Avance no creado',
+			showConfirmButton: false,
+			timer: 1500
+		  })
 	};
 	const insertar = () => {
 		let nuevoAvance = { ...avance.form };
@@ -47,6 +55,13 @@ const ModalCrearAvance = ({ avance, handleChange, setModalInsertar, isOpen, setN
 			)
 			.catch((error) => console.error('Error:', error));
 		setModalInsertar(false);
+		Swal.fire({
+			position: 'center',
+			icon: 'success',
+			title: 'Avance creado con exito',
+			showConfirmButton: false,
+			timer: 1500
+		  })
 	};
 
 	return (

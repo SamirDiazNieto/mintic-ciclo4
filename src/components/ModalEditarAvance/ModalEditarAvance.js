@@ -1,17 +1,32 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Input } from 'reactstrap';
 import { createApolloFetch } from 'apollo-fetch';
+import Swal from 'sweetalert2';
 
 const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, setNewVal, newVal, uri }) => {
 	const [errors, setErrors] = React.useState(null);
 
 	const cerrarModalActualizar = () => {
 		setModalActualizar(false);
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Avance no modificado',
+			showConfirmButton: false,
+			timer: 1500
+		  })
 	};
 	const editar = () => {
 		let avanceAModificar = { ...avance.form };
 		actualizarAvance(avanceAModificar);
 		setModalActualizar(false);
+		Swal.fire({
+			position: 'center',
+			icon: 'success',
+			title: 'Avance modificado con exito',
+			showConfirmButton: false,
+			timer: 1500
+		  })
 	};
 	const actualizarAvance = (miAvance) => {
 		console.log(miAvance);

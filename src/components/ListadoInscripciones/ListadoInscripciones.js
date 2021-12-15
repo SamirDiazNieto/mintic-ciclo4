@@ -172,7 +172,7 @@ const ListadoInscripciones = () => {
           if (result.isConfirmed) {
             borrarCustomer(registro._id);
             swalWithBootstrapButtons.fire(
-              'Borrada!',
+              'Borrado!',
               'La inscipción ha sido borrada',
               'success'
             )
@@ -363,7 +363,6 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 ",
                       >
                         Editar
                       </Button>
-                      {" . "}
                       {
                         <Button
                           className={classState.eliminar}
