@@ -28,7 +28,6 @@ export function capturaCampos() {
 }
 
 ReactDOM.render(
-	
 		<React.StrictMode>
 			<BrowserRouter>
 				<Switch>
@@ -41,7 +40,6 @@ ReactDOM.render(
 					<Route exact component={App} />
 				</Switch>
 			</BrowserRouter>
-		</React.StrictMode>
-	,
+		</React.StrictMode>,
 	document.getElementById('root')
 );

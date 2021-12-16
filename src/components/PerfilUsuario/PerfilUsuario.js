@@ -14,7 +14,7 @@ import Swal from "sweetalert2";
 
 
 const PerfilUsuario = () => {
-  const uri = process.env.REACT_APP_API_BASE_URL
+  const uri = process.env.REACT_APP_API_BASE_URL;
   const [email, setEmail] = useState("");
   const [user, loading] = useAuthState(auth);
   const [errors, setErrors] = useState("");
