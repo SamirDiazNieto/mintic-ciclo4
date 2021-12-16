@@ -32,6 +32,7 @@ const ListadoAvances = () => {
 			},
 			student: {
 				_id: '',
+				name:''
 			},
 			date: '',
 			description: '',
@@ -56,6 +57,7 @@ const ListadoAvances = () => {
                     }
                     student {
                         _id
+						nameUser
                     }
                     date
                     description
@@ -148,6 +150,7 @@ const ListadoAvances = () => {
 					  'El avance ha sido borrado',
 					  'success'
 					)
+					
 				  } else if (
 					/* Read more about handling dismissals below */
 					result.dismiss === Swal.DismissReason.cancel
@@ -216,7 +219,7 @@ const ListadoAvances = () => {
 
 		const onFilterChange = useAsyncDebounce((value) => {
 			setGlobalFilter(value || undefined);
-		}, 200);
+		}, 1000);
 
 		const handleInputChange = (e) => {
 			setValue(e.target.value);
@@ -226,7 +229,7 @@ const ListadoAvances = () => {
 		return (
 			<span className='cars-filter'>
 				Buscar Avance:
-				<input size={50} value={value || ''} onChange={handleInputChange} placeholder={`${totalCarsAvailable} Avances disponibles...`} />
+				<input autofocus size={50} value={value || ''} onChange={handleInputChange} placeholder={`${totalCarsAvailable} Avances disponibles...`} />
 			</span>
 		);
 	}
@@ -248,6 +251,7 @@ const ListadoAvances = () => {
 					<Table onCompositionUpdate={handleChange} {...getTableProps()}>
 						<thead className='encabezados'>
 							<tr>
+												<th>Tabla</th>
 								<th colSpan={4}>
 									<CarsFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
 								</th>

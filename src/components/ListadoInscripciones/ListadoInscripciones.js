@@ -12,11 +12,11 @@ import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsInscripcion";
 import { createApolloFetch } from "apollo-fetch";
 import DateFromTime from "es-abstract/5/DateFromTime";
-import { userRegisterReturn } from "../Firebase/Firebase";
+import { IdRegisterReturn, userRegisterReturn } from "../Firebase/Firebase";
 import Swal from "sweetalert2";
 
 const data = [];
-
+const idUser=IdRegisterReturn()
 const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoInscripciones = () => {
@@ -62,8 +62,7 @@ const ListadoInscripciones = () => {
   }, [user, loading]);
 
   React.useEffect(() => {
-
-      const query = `
+    const  query=`
     query GetInscription {
       getInscription {
         _id
@@ -72,7 +71,8 @@ const ListadoInscripciones = () => {
         dateOut
         project {
           _id
-          name
+          name 
+          owner
         }
         student {
           nameUser
@@ -81,25 +81,41 @@ const ListadoInscripciones = () => {
     }
 
     `;
+    
+
 
     const apolloFetch = createApolloFetch({ uri });
-
+debugger;
     apolloFetch({ query }).then(
       (result) => {
         console.log(result)
         
-       
-        
+        const info4=result.data.getInscription.filter((element)=> {
+             
+          return element.project.owner === idUser._id;
+        })
+        console.log(info4)
+        if(userLogged.typeUser==="Lider"){
+          debugger
+          setInscripcion({
+           ...inscripcion,
+           data: info4,
+         }); 
+         debugger
+       }else{
+        debugger
         //result.dateRegister=result.dateRegister.toUTCString();
         setInscripcion({
           ...inscripcion,
           data: result.data.getInscription,
         });
+        debugger
+      }
         console.log(inscripcion)
 
         setDataTabla({
           ...dataTabla,
-          data: result.data.getInscription,
+          data: inscripcion.data,
         });
       },
       (error) => {
@@ -108,7 +124,9 @@ const ListadoInscripciones = () => {
         setErrors(error);
       }
       )
-
+      debugger;
+      //console.log("tipo, ", userLogged.typeUser)
+      
 
   }, [newVal]);
 
@@ -125,6 +143,7 @@ const ListadoInscripciones = () => {
         [datosImput.target.name]: datosImput.target.value,
       },
     }));
+  
   };
 
   const mostrarModalActualizar = (datoId) => {
@@ -227,7 +246,7 @@ console.log(query)
   const [dataTabla, setDataTabla] = React.useState({
     data: inscripcion.data,
   });
-
+  console.log(dataTabla)
   var table = useTable({ columns, data: dataTabla.data}, useGlobalFilter);
   const {
     getTableProps,
@@ -248,6 +267,9 @@ console.log(query)
     const [value, setValue] = React.useState(globalFilter);
 
     const onFilterChange = useAsyncDebounce((value) => {
+      debugger;
+      
+       
       setGlobalFilter(value || undefined);
     }, 200);
 
@@ -273,15 +295,16 @@ console.log(query)
 const classState={editar:"text-left text-uppercase m-1 mr-5 ",
                   eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
   console.log("userLogged.typeUser")
-  console.log(userLogged.typeUser)
+  console.log(dataTabla)
   if(userLogged.typeUser==="Administrador"){
     classState.editar="text-left text-uppercase m-1 mr-5"
     classState.eliminar="text-left text-uppercase m-1 mr-5"
   }
+  
   return (
     <>
       <Sidebar />
-      <Container>
+      <Container>{inscripcion.data.toString()}
         <h1 className="titulos">Listado Inscripciones</h1>
         <br />
         {/* <Button disabled={false} color="success" onClick={mostrarModalInsertar}>
