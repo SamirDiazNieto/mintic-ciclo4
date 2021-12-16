@@ -56,6 +56,7 @@ const ListadoAvances = () => {
                     }
                     student {
                         _id
+						nameUser
                     }
                     date
                     description
@@ -248,6 +249,9 @@ const ListadoAvances = () => {
 					<Table onCompositionUpdate={handleChange} {...getTableProps()}>
 						<thead className='encabezados'>
 							<tr>
+								<th>
+									Tabla
+								</th>
 								<th colSpan={4}>
 									<CarsFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
 								</th>
