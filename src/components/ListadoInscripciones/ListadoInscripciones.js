@@ -86,58 +86,49 @@ const ListadoInscripciones = () => {
     
 
 
-    const apolloFetch = createApolloFetch({ uri });
-debugger;
-    apolloFetch({ query }).then(
-      (result) => {
-        console.log(result)
-        
-        result.data.getProjects.filter((value)=>{
-          
-          if(value.project.owner._id === idUser._id)
-           return true//value.state= "activo";
-          else{
-            return false
-           //value.state="inactivo"
-          }
 
-        })
-        /* const info4=result.data.getInscription.filter((element)=> {
-             
-          return element.project.owner._id === idUser._id;
-        })
-        console.log(info4) */
-        /* if(userLogged.typeUser!=="Lider"){
-          debugger
-          setInscripcion({
-           ...inscripcion,
-           data: info4,
-         }); 
-         debugger
-       }else{
-        debugger */
-        //result.dateRegister=result.dateRegister.toUTCString();
-        setInscripcion({
-          ...inscripcion,
-          data: result.data.getInscription,
-        });
-        debugger
-      //}
-        
-        setDataTabla({
-          ...dataTabla,
-          data: inscripcion.data,
-        });
-      },
-      (error) => {
-        //setIsLoaded(true);
-        console.log(error);
-        setErrors(error);
-      }
-      )
-      debugger;
-      //console.log("tipo, ", userLogged.typeUser)
-      
+const apolloFetch = createApolloFetch({ uri });
+
+apolloFetch({ query }).then(
+  (result) => {
+    debugger
+    console.log(result)
+    const info2= result.data.getInscription
+    debugger
+    let info3;
+    if(userLogged.typeUser==="Lider"){
+
+    
+       info3 =info2.filter((value)=>{
+        return value.project.owner._id=== idUser._id
+      })
+      localStorage.setItem('data', info3.toString());
+    }
+    else {
+      info3=info2
+    }
+
+    
+    
+    //result.dateRegister=result.dateRegister.toUTCString();
+    setInscripcion({
+      ...inscripcion,
+      data: info3,
+    });
+    console.log(inscripcion)
+
+    setDataTabla({
+      ...dataTabla,
+      data: info3,
+    });
+  },
+  (error) => {
+    //setIsLoaded(true);
+    console.log(error);
+    setErrors(error);
+  }
+  )
+
 
   }, [newVal]);
 

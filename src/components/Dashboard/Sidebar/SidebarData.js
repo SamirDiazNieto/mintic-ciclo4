@@ -77,7 +77,7 @@ const SidebarData = () => {
 				
 			} else if (datos.typeUser === "Estudiante") {
 			//console.log("Estudiante");
-			sidebarDATA.splice(5,3)
+			sidebarDATA.splice(5,4)
 		} else {
 		}
 	} else if (datos.state === "Pendiente" && sidebarDATA.length === 8) {
