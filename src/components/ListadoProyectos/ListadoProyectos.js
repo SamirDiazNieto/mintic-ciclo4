@@ -69,7 +69,9 @@ console.log(arregloProyectos)
       dateEnd
       phase
       state
-      owner { nameUser}
+      owner { 
+        nameUser
+      }
     }
   }
 
@@ -77,6 +79,17 @@ console.log(arregloProyectos)
     const apolloFetch = createApolloFetch({ uri });
     apolloFetch({ query }).then(
       (result) => {
+        
+        result.data.getProjects.map((value)=>{
+          console.log(value.state)
+          if(value.state=== true)
+           value.state= "Activo";
+          else{
+           value.state="Inactivo"
+          }
+         
+          
+        })
         setProyecto({
           ...proyecto,
           data: result.data.getProjects,

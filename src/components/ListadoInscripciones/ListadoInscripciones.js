@@ -92,6 +92,16 @@ debugger;
       (result) => {
         console.log(result)
         
+        result.data.getProjects.filter((value)=>{
+          
+          if(value.project.owner._id === idUser._id)
+           return true//value.state= "activo";
+          else{
+            return false
+           //value.state="inactivo"
+          }
+
+        })
         /* const info4=result.data.getInscription.filter((element)=> {
              
           return element.project.owner._id === idUser._id;
