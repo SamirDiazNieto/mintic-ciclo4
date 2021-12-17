@@ -68,8 +68,8 @@ const SidebarData = () => {
 			//console.log("Activo");
 			if (datos.typeUser === "Lider") {
 				//console.log("Lider");
-				// sidebarDATA.splice(7,1)
-				sidebarDATA.splice(4,2)
+				sidebarDATA.splice(1,1)
+				sidebarDATA.splice(4,1)
 			} else if (datos.typeUser === "Administrador") {
 				//console.log("Administrador");
 				sidebarDATA.splice(4,2)

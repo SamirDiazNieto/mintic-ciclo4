@@ -10,6 +10,7 @@ import { createApolloFetch } from 'apollo-fetch';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Swal from 'sweetalert2';
+import "./ListadoAvances.css";
 
 const data = [];
 
@@ -304,10 +305,10 @@ const ListadoAvances = () => {
 													);
 												})
 											}
-											<Button className='text-left text-uppercase m-1 mr-5 ' id={row.values._id} color='primary' onClick={mostrarModalActualizar}>
+											<Button className='btn-p-avances text-left text-uppercase m-1 mr-5 ' id={row.values._id} color='primary' onClick={mostrarModalActualizar}>
 												Editar
 											</Button>
-											<Button className='text-left text-uppercase m-1 ml-5 ' id={row.values._id} color='danger' onClick={eliminar}>
+											<Button className='btn-d-avances text-left text-uppercase m-1 ml-5 ' id={row.values._id} color='danger' onClick={eliminar}>
 												Eliminar
 											</Button>
 										</tr>
