@@ -10,7 +10,7 @@ import { IconContext } from 'react-icons/lib';
 import { getAuth } from "firebase/auth";
 import { useHistory } from "react-router-dom";
 import Swal from 'sweetalert2';
-
+import {userRegisterReturn} from '../../Firebase/Firebase';
 
 const Nav = styled.div`
 	background: #15171c;
@@ -53,6 +53,7 @@ const Sidebar = (estado) => {
 	const showSidebar = () => setSidebar(!sidebar);
 	const history = useHistory();
 	const auth = getAuth();
+	let id = userRegisterReturn();
 	
 	const logout = () => {
 		auth.signOut().then(function () {
@@ -85,6 +86,8 @@ const Sidebar = (estado) => {
 					</NavIcon>
 					<NavIcon to='/' activestyle>
 						<BiIcons.BiLogOut color="danger" onClick={logout} />
+						<>
+						{id.typeUser}</>
 					</NavIcon> 
 				</Nav>
 				<SidebarNav sidebar={sidebar}>

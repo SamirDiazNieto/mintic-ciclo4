@@ -12,12 +12,13 @@ import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsUsuario";
 import { createApolloFetch } from "apollo-fetch";
 import Swal from "sweetalert2";
-
+import { userRegisterReturn } from '../Firebase/Firebase';
 const data = [];
 
-const uri = "http://3.13.152.194:5010/graphql";
+const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoUsuarios = () => {
+  let userLogged = userRegisterReturn();
   const auth = getAuth();
   const [modalActualizar, setModalActualizar] = React.useState(false);
   const [modalInsertar, setModalInsertar] = React.useState(false);
@@ -57,7 +58,6 @@ query GetUsers {
     state
   }
 }
-
 `;
     const apolloFetch = createApolloFetch({ uri });
 
@@ -143,7 +143,7 @@ query GetUsers {
           if (result.isConfirmed) {
             borrarCustomer(registro._id);
             swalWithBootstrapButtons.fire(
-              'Borrada!',
+              'Borrado!',
               'El Usuario ha sido borrado',
               'success'
             )
@@ -194,11 +194,20 @@ console.log(query)
   };
 
 
+
   const columns = useColumns();
 
   const [dataTabla, setDataTabla] = React.useState({
     data: usuario.data,
   });
+  const classState={editar:"text-left text-uppercase m-1 mr-5 single-btn",
+  eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
+console.log("userLogged.typeUser")
+console.log(dataTabla)
+if(userLogged.typeUser==="Administrador"){
+classState.editar="text-left text-uppercase m-1 mr-5"
+classState.eliminar="text-left text-uppercase m-1 mr-5"
+}
 
   var table = useTable({ columns, data: dataTabla.data }, useGlobalFilter);
   const {
@@ -318,7 +327,7 @@ console.log(query)
                         })
                       }
                       <Button
-                        className="text-left text-uppercase m-1 mr-5 "
+                        className={classState.editar}
                         id={row.values._id}
                         color="primary"
                         onClick={mostrarModalActualizar}
@@ -327,7 +336,7 @@ console.log(query)
                       </Button>
                       {
                         <Button
-                          className="text-center text-uppercase m-1 ml-5"
+                          className={classState.eliminar}
                           id={row.values._id}
                           color="danger"
                           onClick={eliminar}

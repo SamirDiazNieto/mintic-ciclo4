@@ -18,13 +18,13 @@ let sidebarDATA = [
   },
   {
     titulo: "Proyectos",
-    ruta: "/dashboard",
+    ruta: "/dashboard/lista-proyectos",
     icono: <AiIcons.AiOutlineAppstoreAdd />,
     // 		icono: <FaIcons.FaShoppingCart />,
   },
   {
     titulo: "Avances",
-    ruta: "/dashboard",
+    ruta: "/dashboard/avances",
     icono: <BsIcons.BsReceiptCutoff />,
   },
   {
@@ -34,11 +34,11 @@ let sidebarDATA = [
   },
   {
     titulo: "Mis Proyectos", //Estudiante
-    ruta: "/dashboard",
+    ruta: "/dashboard/lista-mis-proyectos",
     icono: <FaIcons.FaListOl />,
   },
   {
-	  titulo: "Mis Proyectos", //Lider
+	  titulo: "Mis Avances", //Estudiante
 	  ruta: "/dashboard",
 	  icono: <AiIcons.AiOutlineFileSearch />,
 	},
@@ -56,36 +56,36 @@ let sidebarDATA = [
 
 
 const SidebarData = () => {
-	console.log(sidebarDATA)
+	//console.log(sidebarDATA)
 	let datos = userRegisterReturn();
-	console.log(datos);
+	//console.log(datos);
 	const history = useHistory();
 	const auth = getAuth();
 	const [user] = useAuthState(auth);
 	
 	function menu(){
 		if (datos.state === "Autorizado"&& sidebarDATA.length === 8) {
-			console.log("Activo");
+			//console.log("Activo");
 			if (datos.typeUser === "Lider") {
-				console.log("Lider");
-				sidebarDATA.splice(7,1)
+				//console.log("Lider");
+				sidebarDATA.splice(1,1)
 				sidebarDATA.splice(4,1)
 			} else if (datos.typeUser === "Administrador") {
-				console.log("Administrador");
+				//console.log("Administrador");
 				sidebarDATA.splice(4,2)
-				console.log(sidebarDATA)
+				//console.log(sidebarDATA)
 				
 			} else if (datos.typeUser === "Estudiante") {
-			console.log("Estudiante");
-			sidebarDATA.splice(5,3)
+			//console.log("Estudiante");
+			sidebarDATA.splice(6,2)
 		} else {
 		}
 	} else if (datos.state === "Pendiente" && sidebarDATA.length === 8) {
-		console.log("Pendiente");
+		//console.log("Pendiente");
 		sidebarDATA.splice(4,4)
 		sidebarDATA.splice(1,2)
 	} else if(datos.state === "No Autorizado" && sidebarDATA.length === 8){
-		console.log("No Autorizado");
+		//console.log("No Autorizado");
 		sidebarDATA.splice(1,7)
 	  }else{
 
