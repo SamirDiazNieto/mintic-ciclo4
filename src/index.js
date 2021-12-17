@@ -10,7 +10,7 @@ import Dashboard from './pages/Dashboard';
 import PerfilUsuario from './components/PerfilUsuario/PerfilUsuario';
 import Avances from './components/ListadoAvances/ListadoAvances';
 import ListadoProyectos from './components/ListadoProyectos/ListadoProyectos';
-
+import ListadoMisProyectos from './components/ListadoMisProyectos/ListadoProyectos';
 
 export function capturaCampos() {
 	const div_register = document.getElementById('div-trasera-register');
@@ -39,7 +39,7 @@ ReactDOM.render(
 					<Route exact path='/dashboard/actualizar-datos' component={PerfilUsuario} />
 					<Route exact path='/dashboard/avances' component={Avances} />
 					<Route exact path='/dashboard/lista-proyectos' component={ListadoProyectos} />
-					
+					<Route exact path='/dashboard/lista-mis-proyectos' component={ListadoMisProyectos}/>
 					<Route exact component={App} />
 				</Switch>
 			</BrowserRouter>

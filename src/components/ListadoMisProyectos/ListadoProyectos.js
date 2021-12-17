@@ -5,11 +5,11 @@ import ModalCrearProyecto from "../ModalCrearProyecto/ModalCrearProyecto";
 import ModalEditarProyecto from "../ModalEditarProyecto/ModalEditarProyecto";
 import Sidebar from "../Dashboard/Sidebar/Sidebar";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth } from "firebase/auth";
+import { debugErrorMap, getAuth } from "firebase/auth";
 import { useHistory } from "react-router";
 
 import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
-import useColumns from "../hooks/useColumnsProyecto";
+import useColumns from "../hooks/useColumnsMisProyectos";
 import { createApolloFetch } from "apollo-fetch";
 import Swal from "sweetalert2";
 import { userRegisterReturn, IdRegisterReturn } from '../Firebase/Firebase';
@@ -21,7 +21,7 @@ const data = [];
 const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoProyectos = () => {
-  debugger
+  
   let userLogged = userRegisterReturn()
     var rol = userLogged.typeUser;
   const idEstudiante = IdRegisterReturn()._id;
@@ -44,10 +44,7 @@ const ListadoProyectos = () => {
       dateStart: "" ,
       dateEnd: "" ,
       phase: "" ,
-      state: "" ,
-      owner: {
-        nameUser:""
-      } ,
+      state: "" 
     },
   });
 
@@ -60,29 +57,36 @@ console.log(arregloProyectos)
 
   React.useEffect(() => {
     const query = `
-  query GetProjects {
-    getProjects {
-      _id
-      name
-      generalObjective
-      especificObjectives
-      budget
-      dateStart
-      dateEnd
-      phase
-      state
-      owner { 
-        nameUser
+    query GetUserById($id: String) {
+      getUserById(_id: $id) {
+        projects {
+          _id
+          name
+          generalObjective
+          especificObjectives
+          budget
+          dateStart
+          dateEnd
+          phase
+          state
+          
+        }
       }
     }
-  }
+ 
 
 `;
     const apolloFetch = createApolloFetch({ uri });
-    apolloFetch({ query }).then(
+    debugger
+    apolloFetch({ query: query,
+      variables: { 
+        id: idEstudiante
+        } }).then(
       (result) => {
-        
-        result.data.getProjects.map((value)=>{
+        debugger
+        let datas=result.data.getUserById.projects
+        debugger
+        result.data.getUserById.projects.map((value)=>{
           console.log(value.state)
           if(value.state=== true)
            value.state= "Activo";
@@ -92,14 +96,15 @@ console.log(arregloProyectos)
          
           
         })
+        debugger
         setProyecto({
           ...proyecto,
-          data: result.data.getProjects,
+          data: result.data.getUserById.projects,
         });
-
+        debugger
         setDataTabla({
           ...dataTabla,
-          data: result.data.getProjects,
+          data: result.data.getUserById.projects,
         });
       },
       (error) => {
@@ -509,7 +514,7 @@ const CambiarFaseProyecto = (id,fase) => {
     <>
       <Sidebar />
       <Container>
-        <h1 className="titulos">Listado Proyectos</h1>
+        <h1 className="titulos">Listado Mis Proyectos</h1>
         <br />
         <Button
           className={rol == "Lider" ? "text-center text-uppercase m-1 ml-5" : 'hidden'}
@@ -589,57 +594,19 @@ const CambiarFaseProyecto = (id,fase) => {
                       >
                         Editar
                       </Button> 
-                      }  
-                       {
-                      <Button
-                        className={rol == "Administrador" && row.values.state == "Activo" && row.values.phase == "En desarrollo"? "text-center text-uppercase m-1 ml-5" : 'hidden'}
-                        id={row.values._id}
-                        color="primary"
-                        onClick={FinalizarProyecto}
-                      >
-                        Terminado
-                      </Button> 
-                      }                    
+                      }
+                      
                       {
                         <Button
-                          className={row.values.phase == null  && rol == "Administrador"? "text-center text-uppercase m-1 ml-5": 'hidden' }
+                          className={row.values.state == "Activo" && rol == "Estudiante"? "single-btn text-center text-uppercase m-1 ml-5": 'hidden' }
                           id={row.values._id}
                           color="primary"
-                          onClick={aprobar}
-                        >                          
-                          Aprobar  
-                        </Button>
-                      }
-                      {
-                        <Button
-                          className={(row.values.state == "Inactivo"  && rol == "Administrador" && row.values.phase != "Terminado")? "text-center text-uppercase m-1 ml-5": 'hidden' }
-                          id={row.values._id}
-                          color="primary"
-                          onClick={aprobar}
-                        >                          
-                          Activar  
-                        </Button>
-                      }
-                      {
-                        <Button
-                         className={((row.values.phase == "Iniciado" || row.values.phase == "En desarrollo" ) && row.values.state == "Activo"  && rol == "Administrador")? "text-center text-uppercase m-1 ml-5 mr-5": 'hidden' }
-                          id={row.values._id}
-                          color="primary"
-                          onClick={aprobar}
-                        >                          
-                          Inactivar
-                        </Button>
-                      }
-                       {
-                        <Button
-                          className={row.values.state == "Activo" && rol == "Estudiante"? "text-center text-uppercase m-1 ml-5": 'hidden' }
-                          id={row.values._id}
-                          color="primary"
-                          onClick={inscribir}
+                          onClick={crearAvance}
                         >
-                          Inscribirse
+                          Crear Avance
                         </Button>
                       }
+                      
                       {
                         <Button
                           className={rol == "Administrador"? "text-center text-uppercase m-1 ml-5": 'hidden' }

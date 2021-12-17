@@ -12,7 +12,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { createApolloFetch } from "apollo-fetch";
 import Swal from 'sweetalert2';
-import { userRegisterReturn, IdRegisterReturn } from '../Firebase';
+import { userRegisterReturn, IdRegisterReturn } from '../Firebase/Firebase';
 
 
 const ModalCrearProyecto = ({ proyecto, handleChange, setModalInsertar, isOpen, setNewVal, newVal, uri }) => {
