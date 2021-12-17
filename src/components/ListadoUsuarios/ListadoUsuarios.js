@@ -257,7 +257,7 @@ classState.eliminar="text-left text-uppercase m-1 mr-5"
       <Container>
         <h1 className="titulos">Listado Usuarios</h1>
         <br />
-        <Button disabled={false} color="success" onClick={mostrarModalInsertar}>
+        <Button className="text-center text-uppercase m-1 ml-5 btn-crear" disabled={false} color="success" onClick={mostrarModalInsertar}>
           Crear
         </Button>
         <br />

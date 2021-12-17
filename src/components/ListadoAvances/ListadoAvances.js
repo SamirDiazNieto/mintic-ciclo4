@@ -242,7 +242,7 @@ const ListadoAvances = () => {
 			<Container>
 				<h1 className='titulos'>Listado Avances</h1>
 				<br />
-				<Button disabled={false} color='success' onClick={mostrarModalInsertar}>
+				<Button className="text-center text-uppercase m-1 ml-5 btn-crear" disabled={false} color='success' onClick={mostrarModalInsertar}>
 					Crear
 				</Button>
 				<br />
