@@ -200,7 +200,7 @@ console.log(query)
   const [dataTabla, setDataTabla] = React.useState({
     data: usuario.data,
   });
-  const classState={editar:"text-left text-uppercase m-1 mr-5 ",
+  const classState={editar:"text-left text-uppercase m-1 mr-5 single-btn",
   eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
 console.log("userLogged.typeUser")
 console.log(dataTabla)

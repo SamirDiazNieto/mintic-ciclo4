@@ -294,7 +294,7 @@ console.log(query)
   }
   //console.log("fin")
 
-const classState={editar:"single-btn text-left text-uppercase m-1 mr-5 ",
+const classState={editar:"text-left text-uppercase m-1 mr-5 single-btn",
                   eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
   console.log("userLogged.typeUser")
   console.log(dataTabla)
@@ -306,7 +306,7 @@ const classState={editar:"single-btn text-left text-uppercase m-1 mr-5 ",
   return (
     <>
       <Sidebar />
-      <Container>{inscripcion.data.toString()}
+      <Container>
         <h1 className="titulos">Listado Inscripciones</h1>
         <br />
         {/* <Button disabled={false} color="success" onClick={mostrarModalInsertar}>
