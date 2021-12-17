@@ -12,10 +12,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { createApolloFetch } from "apollo-fetch";
 import Swal from 'sweetalert2';
+import { userRegisterReturn, IdRegisterReturn } from '../Firebase';
 
 
 const ModalCrearProyecto = ({ proyecto, handleChange, setModalInsertar, isOpen, setNewVal, newVal, uri }) => {
-  const idLider = "61b50d9c0446309049d4fdad"
+  const idLider = IdRegisterReturn()._id;
 
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);

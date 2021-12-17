@@ -12,6 +12,7 @@ import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
 import useColumns from "../hooks/useColumnsProyecto";
 import { createApolloFetch } from "apollo-fetch";
 import Swal from "sweetalert2";
+import { userRegisterReturn, IdRegisterReturn } from '../Firebase/Firebase';
 
 const data = [];
 
@@ -20,10 +21,11 @@ const data = [];
 const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoProyectos = () => {
-  // var rol = "Administrador"
-  //var rol = "Lider"
-   var rol = "Estudiante"
-  const idEstudiante = "61b50d9c0446309049d4fdad"
+  debugger
+  let userLogged = userRegisterReturn()
+    var rol = userLogged.typeUser;
+  const idEstudiante = IdRegisterReturn()._id;
+
   const auth = getAuth();
   const [modalActualizar, setModalActualizar] = React.useState(false);
   const [modalInsertar, setModalInsertar] = React.useState(false);
@@ -218,7 +220,61 @@ console.log(arregloProyectos)
         }
       );
   };
+///////FINALIZAR
+const FinalizarProyecto = (datoID) => {
+  arregloProyectos.map((registro) => {
+    if (datoID.target.id === registro._id) {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      debugger
 
+      
+        CambiarFaseProyecto(registro._id, "Terminado");
+        swalWithBootstrapButtons.fire(
+          'OK!',
+          'El proyecto ha sido Terminado',
+          'success'
+        )
+
+      
+
+    }
+    return;
+  });
+};
+
+
+const CambiarFaseProyecto = (id,fase) => {
+  const query = `
+  mutation Mutation($projectId: ID, $newPhase: String) {
+    changePhaseProject(projectId: $projectId, newPhase: $newPhase) {
+      _id
+    }
+  }
+`
+  const apolloFetch = createApolloFetch({ uri });
+  apolloFetch({
+    query: query,
+    variables: { 
+      projectId: id,
+      newPhase : fase
+     }
+  })
+    .then(
+      (result) => {
+        setNewVal(newVal + 1);
+      },
+      (error) => {
+        console.log(error);
+        setErrors(error);
+      }
+    );
+};
 /////////////////////APROBAR
   const aprobar = (datoID) => {
     arregloProyectos.map((registro) => {
@@ -232,7 +288,7 @@ console.log(arregloProyectos)
         })
         debugger
 
-        if (registro.state) {
+        if (registro.state == "Activo") {
           ActivarProyecto(registro._id, false);
           swalWithBootstrapButtons.fire(
             'OK!',
@@ -526,14 +582,24 @@ console.log(arregloProyectos)
                       }
                       {
                       <Button
-                        className={rol == "Lider" && row.values.state? "text-center text-uppercase m-1 ml-5" : 'hidden'}
+                        className={rol == "Lider" && row.values.state == "Activo"? "text-center text-uppercase m-1 ml-5" : 'hidden'}
                         id={row.values._id}
                         color="primary"
                         onClick={mostrarModalActualizar}
                       >
                         Editar
                       </Button> 
-                      }                     
+                      }  
+                       {
+                      <Button
+                        className={rol == "Administrador" && row.values.state == "Activo" && row.values.phase == "En desarrollo"? "text-center text-uppercase m-1 ml-5" : 'hidden'}
+                        id={row.values._id}
+                        color="primary"
+                        onClick={FinalizarProyecto}
+                      >
+                        Terminado
+                      </Button> 
+                      }                    
                       {
                         <Button
                           className={row.values.phase == null  && rol == "Administrador"? "text-center text-uppercase m-1 ml-5": 'hidden' }
@@ -546,7 +612,7 @@ console.log(arregloProyectos)
                       }
                       {
                         <Button
-                          className={(row.values.state == false  && rol == "Administrador" && row.values.phase != "Terminado")? "text-center text-uppercase m-1 ml-5": 'hidden' }
+                          className={(row.values.state == "Inactivo"  && rol == "Administrador" && row.values.phase != "Terminado")? "text-center text-uppercase m-1 ml-5": 'hidden' }
                           id={row.values._id}
                           color="primary"
                           onClick={aprobar}
@@ -556,7 +622,7 @@ console.log(arregloProyectos)
                       }
                       {
                         <Button
-                         className={((row.values.phase == "Iniciado" || row.values.phase == "En desarrollo" ) && row.values.state == true  && rol == "Administrador")? "text-center text-uppercase m-1 ml-5 mr-5": 'hidden' }
+                         className={((row.values.phase == "Iniciado" || row.values.phase == "En desarrollo" ) && row.values.state == "Activo"  && rol == "Administrador")? "text-center text-uppercase m-1 ml-5 mr-5": 'hidden' }
                           id={row.values._id}
                           color="primary"
                           onClick={aprobar}
@@ -566,7 +632,7 @@ console.log(arregloProyectos)
                       }
                       {
                         <Button
-                          className={row.values.state && rol == "Estudiante"? "text-center text-uppercase m-1 ml-5": 'hidden' }
+                          className={row.values.state == "Activo" && rol == "Estudiante"? "text-center text-uppercase m-1 ml-5": 'hidden' }
                           id={row.values._id}
                           color="primary"
                           onClick={crearAvance}
@@ -576,7 +642,7 @@ console.log(arregloProyectos)
                       }
                        {
                         <Button
-                          className={row.values.state && rol == "Estudiante"? "text-center text-uppercase m-1 ml-5": 'hidden' }
+                          className={row.values.state == "Activo" && rol == "Estudiante"? "text-center text-uppercase m-1 ml-5": 'hidden' }
                           id={row.values._id}
                           color="primary"
                           onClick={inscribir}
