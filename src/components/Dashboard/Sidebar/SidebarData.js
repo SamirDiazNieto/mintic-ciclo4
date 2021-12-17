@@ -68,7 +68,7 @@ const SidebarData = () => {
 			//console.log("Activo");
 			if (datos.typeUser === "Lider") {
 				//console.log("Lider");
-				sidebarDATA.splice(7,1)
+				// sidebarDATA.splice(7,1)
 				sidebarDATA.splice(4,1)
 			} else if (datos.typeUser === "Administrador") {
 				//console.log("Administrador");
@@ -84,7 +84,7 @@ const SidebarData = () => {
 		//console.log("Pendiente");
 		sidebarDATA.splice(4,4)
 		sidebarDATA.splice(1,2)
-	} else if(datos.state === "No Autorizado" && sidebarDATA.length === 8){
+	} else if(datos.state === "No Autorizado" && sidebarDATA.length === 8 && datos.state===undefined){
 		//console.log("No Autorizado");
 		sidebarDATA.splice(1,7)
 	  }else{
