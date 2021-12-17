@@ -310,4 +310,7 @@ table tr td:nth-child(1), table th:nth-child(1) {
   padding: .5rem !important;
 }
 
+.single-btn{
+  max-width: 100%;
+}
 

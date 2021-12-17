@@ -38,7 +38,7 @@ let sidebarDATA = [
     icono: <FaIcons.FaListOl />,
   },
   {
-	  titulo: "Mis Proyectos", //Lider
+	  titulo: "Mis Avances", //Estudiante
 	  ruta: "/dashboard",
 	  icono: <AiIcons.AiOutlineFileSearch />,
 	},
@@ -68,8 +68,8 @@ const SidebarData = () => {
 			//console.log("Activo");
 			if (datos.typeUser === "Lider") {
 				//console.log("Lider");
-				//sidebarDATA.splice(7,1)
-				sidebarDATA.splice(4,1)
+				// sidebarDATA.splice(7,1)
+				sidebarDATA.splice(4,2)
 			} else if (datos.typeUser === "Administrador") {
 				//console.log("Administrador");
 				sidebarDATA.splice(4,2)
@@ -77,7 +77,7 @@ const SidebarData = () => {
 				
 			} else if (datos.typeUser === "Estudiante") {
 			//console.log("Estudiante");
-			sidebarDATA.splice(5,4)
+			sidebarDATA.splice(6,2)
 		} else {
 		}
 	} else if (datos.state === "Pendiente" && sidebarDATA.length === 8) {

@@ -582,7 +582,7 @@ const CambiarFaseProyecto = (id,fase) => {
                       }
                       {
                       <Button
-                        className={rol == "Lider" && row.values.state == "Activo"? "text-center text-uppercase m-1 ml-5" : 'hidden'}
+                        className={rol == "Lider" && row.values.state == "Activo"? "single-btn  text-center text-uppercase m-1 ml-5" : 'hidden'}
                         id={row.values._id}
                         color="primary"
                         onClick={mostrarModalActualizar}
