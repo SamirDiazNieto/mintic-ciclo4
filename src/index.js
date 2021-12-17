@@ -9,6 +9,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import PerfilUsuario from './components/PerfilUsuario/PerfilUsuario';
 import Avances from './components/ListadoAvances/ListadoAvances';
+import ListadoProyectos from './components/ListadoProyectos/ListadoProyectos';
 
 
 export function capturaCampos() {
@@ -37,6 +38,8 @@ ReactDOM.render(
 					<Route exact path='/dashboard/lista-Inscripciones' component={ListadoInscripciones} />
 					<Route exact path='/dashboard/actualizar-datos' component={PerfilUsuario} />
 					<Route exact path='/dashboard/avances' component={Avances} />
+					<Route exact path='/dashboard/lista-proyectos' component={ListadoProyectos} />
+					
 					<Route exact component={App} />
 				</Switch>
 			</BrowserRouter>

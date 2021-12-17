@@ -72,7 +72,9 @@ const ListadoInscripciones = () => {
         project {
           _id
           name 
-          owner
+          owner {
+            _id
+          }
         }
         student {
           nameUser
@@ -90,12 +92,12 @@ debugger;
       (result) => {
         console.log(result)
         
-        const info4=result.data.getInscription.filter((element)=> {
+        /* const info4=result.data.getInscription.filter((element)=> {
              
-          return element.project.owner === idUser._id;
+          return element.project.owner._id === idUser._id;
         })
-        console.log(info4)
-        if(userLogged.typeUser==="Lider"){
+        console.log(info4) */
+        /* if(userLogged.typeUser!=="Lider"){
           debugger
           setInscripcion({
            ...inscripcion,
@@ -103,16 +105,15 @@ debugger;
          }); 
          debugger
        }else{
-        debugger
+        debugger */
         //result.dateRegister=result.dateRegister.toUTCString();
         setInscripcion({
           ...inscripcion,
           data: result.data.getInscription,
         });
         debugger
-      }
-        console.log(inscripcion)
-
+      //}
+        
         setDataTabla({
           ...dataTabla,
           data: inscripcion.data,

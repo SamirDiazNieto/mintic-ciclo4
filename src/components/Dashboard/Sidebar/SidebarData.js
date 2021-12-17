@@ -18,7 +18,7 @@ let sidebarDATA = [
   },
   {
     titulo: "Proyectos",
-    ruta: "/dashboard",
+    ruta: "/dashboard/lista-proyectos",
     icono: <AiIcons.AiOutlineAppstoreAdd />,
     // 		icono: <FaIcons.FaShoppingCart />,
   },
