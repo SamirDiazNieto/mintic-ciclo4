@@ -294,12 +294,12 @@ console.log(query)
   }
   //console.log("fin")
 
-const classState={editar:"text-left text-uppercase m-1 mr-5 ",
+const classState={editar:"single-btn text-left text-uppercase m-1 mr-5 ",
                   eliminar:"text-left text-uppercase m-1 mr-5 d-none d-print-block ",}
   console.log("userLogged.typeUser")
   console.log(dataTabla)
   if(userLogged.typeUser==="Administrador"){
-    classState.editar="text-left text-uppercase m-1 mr-5"
+    classState.editar=" text-left text-uppercase m-1 mr-5"
     classState.eliminar="text-left text-uppercase m-1 mr-5"
   }
   

@@ -632,7 +632,7 @@ const CambiarFaseProyecto = (id,fase) => {
                       }
                        {
                         <Button
-                          className={row.values.state == "Activo" && rol == "Estudiante"? "text-center text-uppercase m-1 ml-5": 'hidden' }
+                          className={row.values.state == "Activo" && rol == "Estudiante"? "single-btn text-center text-uppercase m-1 ml-5": 'hidden' }
                           id={row.values._id}
                           color="primary"
                           onClick={inscribir}
@@ -642,7 +642,7 @@ const CambiarFaseProyecto = (id,fase) => {
                       }
                       {
                         <Button
-                          className={rol == "Administrador"? "text-center text-uppercase m-1 ml-5": 'hidden' }
+                          className={rol == "Administrador"? " single-btn text-center text-uppercase m-1 ml-5": 'hidden' }
                           id={row.values._id}
                           color="danger"
                           onClick={eliminar}
