@@ -173,7 +173,7 @@ debugger;
         </Alert>
       }
       <img className="logo" src={Logo} alt="" />
-          <h2>Inicia Sesión--</h2>
+          <h2>Inicia Sesión</h2>
           <input
             id="login-correo"
             type="text"
