@@ -84,10 +84,10 @@ const Sidebar = (estado) => {
 					<NavIcon to='#'>
 						<FaIcons.FaBars onClick={showSidebar} />
 					</NavIcon>
-					<NavIcon to='/' activestyle>
+					<NavIcon to='/' activestyle  onClick={logout}>
 						<BiIcons.BiLogOut color="danger" onClick={logout} />
 						<>
-						{id.typeUser}</>
+						{ id.typeUser}</>
 					</NavIcon> 
 				</Nav>
 				<SidebarNav sidebar={sidebar}>
