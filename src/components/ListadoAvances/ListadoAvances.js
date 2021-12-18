@@ -9,14 +9,18 @@ import useColumns from '../hooks/useColumnsAdvance';
 import { createApolloFetch } from 'apollo-fetch';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { IdRegisterReturn, userRegisterReturn } from '../Firebase/Firebase';
 import Swal from 'sweetalert2';
-import "./ListadoAvances.css";
+import './ListadoAvances.css';
 
 const data = [];
 
 const uri = process.env.REACT_APP_API_BASE_URL;
 
 const ListadoAvances = () => {
+	const idUser = IdRegisterReturn();
+	let userLogged = userRegisterReturn();
+
 	const auth = getAuth();
 	const [modalActualizar, setModalActualizar] = React.useState(false);
 	const [modalInsertar, setModalInsertar] = React.useState(false);
@@ -33,7 +37,7 @@ const ListadoAvances = () => {
 			},
 			student: {
 				_id: '',
-				name:''
+				name: '',
 			},
 			date: '',
 			description: '',
@@ -54,6 +58,9 @@ const ListadoAvances = () => {
                 getAdvances {
                     _id
                     project {
+						owner {
+							_id
+						}
                         name
                     }
                     student {
@@ -66,19 +73,33 @@ const ListadoAvances = () => {
                 }
             }
         `;
+
 		const apolloFetch = createApolloFetch({ uri });
 
 		apolloFetch({ query }).then(
 			(result) => {
-				console.log(result, 'prueba result');
+				let dato = result.data.getAdvances;
+				console.log(dato);
+				if (userLogged.typeUser === 'Lider') {
+					dato = dato.filter((value) => {
+						return value.project.owner._id === idUser._id;
+					});
+					console.log(dato, 'final');
+				}
+				if (userLogged.typeUser === 'Estudiante') {
+					dato = dato.filter((value) => {
+						return value.student._id === idUser._id;
+					});
+					console.log(dato, 'final');
+				}
 				setAvance({
 					...avance,
-					data: result.data.getAdvances,
+					data: dato,
 				});
 
 				setDataTabla({
 					...dataTabla,
-					data: result.data.getAdvances,
+					data: dato,
 				});
 			},
 			(error) => {
@@ -127,44 +148,36 @@ const ListadoAvances = () => {
 		arregloAvances.map((registro) => {
 			if (datoID.target.id === registro._id) {
 				const swalWithBootstrapButtons = Swal.mixin({
-				  customClass: {
-					confirmButton: 'btn btn-success',
-					cancelButton: 'btn btn-danger'
-				  },
-				  buttonsStyling: false
-				})
-				
-				swalWithBootstrapButtons.fire({
-				  title: "Esta acción no se puede reversar!",
-				  text: `¿Estas seguro de eliminar el avance ${registro.project.name}?`,
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonText: 'Confirmar',
-				  cancelButtonText: 'Cancelar',
-				  // reverseButtons: true
-				  buttonsStyling:'margin: .5rem '
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					borrarCustomer(registro._id);
-					swalWithBootstrapButtons.fire(
-					  'Borrado!',
-					  'El avance ha sido borrado',
-					  'success'
-					)
-					
-				  } else if (
-					/* Read more about handling dismissals below */
-					result.dismiss === Swal.DismissReason.cancel
-				  ) {
-					swalWithBootstrapButtons.fire(
-					  'Cancelado',
-					  'El avance no fue borrado :)',
-					  'error'
-					)
-				  }
-				})
-			  
-			  }
+					customClass: {
+						confirmButton: 'btn btn-success',
+						cancelButton: 'btn btn-danger',
+					},
+					buttonsStyling: false,
+				});
+
+				swalWithBootstrapButtons
+					.fire({
+						title: 'Esta acción no se puede reversar!',
+						text: `¿Estas seguro de eliminar el avance ${registro.project.name}?`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: 'Cancelar',
+						// reverseButtons: true
+						buttonsStyling: 'margin: .5rem ',
+					})
+					.then((result) => {
+						if (result.isConfirmed) {
+							borrarCustomer(registro._id);
+							swalWithBootstrapButtons.fire('Borrado!', 'El avance ha sido borrado', 'success');
+						} else if (
+							/* Read more about handling dismissals below */
+							result.dismiss === Swal.DismissReason.cancel
+						) {
+							swalWithBootstrapButtons.fire('Cancelado', 'El avance no fue borrado :)', 'error');
+						}
+					});
+			}
 			return; //console.log("Elimino Correctamente");
 		});
 	};
@@ -201,6 +214,15 @@ const ListadoAvances = () => {
 	const [dataTabla, setDataTabla] = React.useState({
 		data: avance.data,
 	});
+
+	const classState = { editar: 'text-left text-uppercase m-1 mr-5', eliminar: 'text-left text-uppercase m-1 mr-5' };
+	console.log('userLogged.typeUser');
+	console.log(dataTabla);
+
+	if (userLogged.typeUser === 'Lider' || userLogged.typeUser === 'Estudiante') {
+		classState.editar = ' text-left text-uppercase m-1 mr-5 single-btn';
+		classState.eliminar = 'text-left text-uppercase m-1 mr-5 d-none d-print-block ';
+	}
 
 	var table = useTable({ columns, data: dataTabla.data }, useGlobalFilter);
 	const {
@@ -252,9 +274,7 @@ const ListadoAvances = () => {
 					<Table onCompositionUpdate={handleChange} {...getTableProps()}>
 						<thead className='encabezados'>
 							<tr>
-								<th>
-									Tabla
-								</th>
+								<th>Tabla</th>
 								<th colSpan={4}>
 									<CarsFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
 								</th>
@@ -307,10 +327,10 @@ const ListadoAvances = () => {
 													);
 												})
 											}
-											<Button className='btn-p-avances text-left text-uppercase m-1 mr-5 ' id={row.values._id} color='primary' onClick={mostrarModalActualizar}>
+											<Button className={classState.editar} id={row.values._id} color='primary' onClick={mostrarModalActualizar}>
 												Editar
 											</Button>
-											<Button className='btn-d-avances text-left text-uppercase m-1 ml-5 ' id={row.values._id} color='danger' onClick={eliminar}>
+											<Button className={classState.eliminar} id={row.values._id} color='danger' onClick={eliminar}>
 												Eliminar
 											</Button>
 										</tr>

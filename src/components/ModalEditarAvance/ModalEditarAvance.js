@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Input } from 'reactstrap';
 import { createApolloFetch } from 'apollo-fetch';
+import { userRegisterReturn } from '../Firebase/Firebase';
 import Swal from 'sweetalert2';
 
 const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, setNewVal, newVal, uri }) => {
 	const [errors, setErrors] = React.useState(null);
+	let userLogged = userRegisterReturn();
 
 	const cerrarModalActualizar = () => {
 		setModalActualizar(false);
@@ -13,8 +15,8 @@ const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, s
 			icon: 'error',
 			title: 'Avance no modificado',
 			showConfirmButton: false,
-			timer: 1500
-		  })
+			timer: 1500,
+		});
 	};
 	const editar = () => {
 		let avanceAModificar = { ...avance.form };
@@ -25,9 +27,20 @@ const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, s
 			icon: 'success',
 			title: 'Avance modificado con exito',
 			showConfirmButton: false,
-			timer: 1500
-		  })
+			timer: 1500,
+		});
 	};
+
+	const classState = { descripcion: false, comentario: false };
+	console.log('userLogged.typeUser');
+	if (userLogged.typeUser === 'Lider') {
+		classState.comentario = false;
+		classState.descripcion = true;
+	} else if (userLogged.typeUser === 'Estudiante') {
+		classState.comentario = true;
+		classState.descripcion = false;
+	}
+
 	const actualizarAvance = (miAvance) => {
 		console.log(miAvance);
 		const query = `
@@ -97,11 +110,18 @@ const ModalEditarAvance = ({ avance, handleChange, setModalActualizar, isOpen, s
           </FormGroup> */}
 				<FormGroup>
 					<label>Description:</label>
-					<input className='form-control' name='description' type='text' onChange={handleChange} value={avance.form.description} />
+					<input
+						readOnly={classState.descripcion}
+						className='form-control'
+						name='description'
+						type='text'
+						onChange={handleChange}
+						value={avance.form.description}
+					/>
 				</FormGroup>
 				<FormGroup>
 					<label>Comentario:</label>
-					<input className='form-control' name='comments' type='text' onChange={handleChange} value={avance.form.comments} />
+					<input readOnly={classState.comentario} className='form-control' name='comments' type='text' onChange={handleChange} value={avance.form.comments} />
 				</FormGroup>
 			</ModalBody>
 			<ModalFooter>
