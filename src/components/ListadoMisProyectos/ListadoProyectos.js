@@ -458,15 +458,15 @@ const ListadoProyectos = () => {
 			<Container>
 				<h1 className='titulos'>Listado Mis Proyectos</h1>
 				<br />
-				<Button
-					className={rol == 'Lider' ? 'text-center text-uppercase m-1 ml-5' : 'hidden'}
+				{/* <Button
+					className={rol == 'Lider' ? 'btn-crear text-center text-uppercase m-1 ml-5' : 'hidden'}
 					id='btn-crear'
 					disabled={false}
 					color='success'
 					onClick={mostrarModalInsertar}
 				>
 					Crear
-				</Button>
+				</Button> */}
 				<br />
 				<br />
 				<div id='lista'>

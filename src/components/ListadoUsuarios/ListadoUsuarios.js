@@ -233,7 +233,7 @@ query GetUsers {
 			<Container>
 				<h1 className='titulos'>Listado Usuarios</h1>
 				<br />
-				{/* <Button disabled={false} color='success' onClick={mostrarModalInsertar}>
+				{/* <Button btn-crear disabled={false} color='success' onClick={mostrarModalInsertar}>
 					Crear
 				</Button> */}
 				<br />

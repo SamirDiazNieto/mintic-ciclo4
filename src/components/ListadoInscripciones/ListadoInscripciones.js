@@ -309,7 +309,7 @@ const classState={editar:"text-left text-uppercase m-1 mr-5 single-btn",
       <Container>
         <h1 className="titulos">Listado Inscripciones</h1>
         <br />
-        {/* <Button disabled={false} color="success" onClick={mostrarModalInsertar}>
+        {/* <Button btn-crear disabled={false} color="success" onClick={mostrarModalInsertar}>
           Crear
         </Button> */}
         <br />

@@ -512,7 +512,7 @@ const CambiarFaseProyecto = (id,fase) => {
         <h1 className="titulos">Listado Proyectos</h1>
         <br />
         <Button
-          className={rol == "Lider" ? "text-center text-uppercase m-1 ml-5" : 'hidden'}
+          className={rol == "Lider" ? "btn-crear text-center text-uppercase m-1 ml-5" : 'hidden'}
           id="btn-crear" disabled={false} color="success" onClick={mostrarModalInsertar}>
           Crear
         </Button>

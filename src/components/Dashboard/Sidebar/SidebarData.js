@@ -91,9 +91,8 @@ const SidebarData = () => {
 
 	  }
   }
-  setTimeout(
 	menu()
-	,3000)
+
   
 
   return sidebarDATA;
